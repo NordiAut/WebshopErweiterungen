@@ -21,6 +21,12 @@ namespace webshop.Controllers
             return View(product.ToList());
         }
 
+        public ActionResult Product()
+        {
+            var product = db.Product.Include(p => p.Category).Include(p => p.Manufacturer);
+            return View(product.ToList());
+        }
+
         // GET: Products/Details/5
         public ActionResult Details(int? id)
         {

@@ -55,11 +55,16 @@ namespace webshop.Controllers
                         newCustomer.Zip = Int32.Parse(user.Zip); 
                     }
                     newCustomer.City = user.City;
-                   
+
+                    //Add new order to customer ID
+                    var newOrder = new OrderTable();
+                    newOrder.Customer_ID = newCustomer.Customer_ID;
+
 
 
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.Customer.Add(newCustomer);
+                    db.OrderTable.Add(newOrder);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
