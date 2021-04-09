@@ -16,6 +16,7 @@ namespace webshop.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.error = "Email already exists";
             return View();
         }
 
@@ -39,8 +40,9 @@ namespace webshop.Controllers
                 if (check == null)
                 {
                     //Security
-                    newCustomer.PwHash = GetHash(user.Password);
                     newCustomer.Salt = GetSalt();
+                    newCustomer.PwHash = GetSaltedStringHash(user.Password, newCustomer.Salt);
+                    
 
                     //Add new Customer
                     newCustomer.FirstName = user.FirstName;
@@ -86,29 +88,41 @@ namespace webshop.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Get Password hashed
-                var f_password = GetHash(password);
 
                 // Check DB for User
-                var data = db.Customer.Where(s => s.Email.Equals(email) && s.PwHash.Equals(f_password)).ToList();
+                var customer = db.Customer.Where(s => s.Email.Equals(email)).FirstOrDefault();
 
-                
-             //   byte[] hashedAndSaltedPwBytes = GetSaltedStringHash(password, salt);
-                
+                // When allowing multiple accounts with one email
+                // var data = db.Customer.Where(s => s.Email.Equals(email) && s.PwHash.Equals(hashPassword)).ToList();
 
-                
-                if (data.Count() > 0)
+
+                // If ccustomer is registered
+                if (customer != null)
                 {
-                    //add session
-                    Session["FullName"] = data.FirstOrDefault().FirstName + " " + data.FirstOrDefault().LastName;
-                    Session["Email"] = data.FirstOrDefault().Email;
-                    Session["idUser"] = data.FirstOrDefault().Customer_ID;
-                    return RedirectToAction("Index");
+                    // Get Password hashed
+                    var hashPassword = GetSaltedStringHash(password, customer.Salt);
+
+                    // If password is valid 
+                    if (customer.PwHash.SequenceEqual(hashPassword))
+                    {
+                        //add session
+                        Session["FullName"] = customer.FirstName + " " + customer.LastName;
+                        Session["Email"] = customer.Email;
+                        Session["idUser"] = customer.Customer_ID;
+                        
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ViewBag.LogInError = "Password incorrect";
+                        return View();
+                    }
+
                 }
                 else
                 {
-                    ViewBag.LogInError = "Login failed";
-                    return RedirectToAction("Login");
+                    ViewBag.LogInError = "Email not registered";
+                    return View();
                 }
             }
             return View();
