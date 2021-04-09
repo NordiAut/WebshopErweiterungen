@@ -59,6 +59,14 @@ namespace webshop.Controllers
                     //Add new order to customer ID
                     var newOrder = new OrderTable();
                     newOrder.Customer_ID = newCustomer.Customer_ID;
+                    newOrder.Street = newCustomer.Street;
+                    newOrder.City= newCustomer.City;
+                    if (newCustomer.Zip != null)
+                    {
+                        newOrder.Zip = newCustomer.Zip.ToString();
+                    }
+                    newOrder.FirstName = newCustomer.FirstName;
+                    newOrder.LastName = newCustomer.LastName;
 
 
 

@@ -32,8 +32,7 @@ namespace webshop.Models
         [StringLength(50)]
         public string Street { get; set; }
 
-        [MaxLength(4)]       
-        [RegularExpression("[^0-9]", ErrorMessage = "Zip Code nach dem XXXX Format")]
+        [RegularExpression(@"^[0-9]{4,4}$", ErrorMessage = "Zip Code nach dem XXXX Format")]
         public string Zip { get; set; }
 
         [StringLength(50)]
