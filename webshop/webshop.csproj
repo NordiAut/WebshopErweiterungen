@@ -245,6 +245,7 @@
     <Content Include="Views\OrderLines\Details.cshtml" />
     <Content Include="Views\OrderLines\Edit.cshtml" />
     <Content Include="Views\OrderLines\Index.cshtml" />
+    <Content Include="Views\Products\OrderLineIndexVM.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

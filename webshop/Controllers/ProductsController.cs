@@ -58,30 +58,52 @@ namespace webshop.Controllers
             return View(product.ToList());
         }
 
- 
-        //public ActionResult OrderLineIndexVM()
-        //{
 
-         
-       
+        public ActionResult OrderLineIndexVM()
+        {
 
-        //    var orderline = db.OrderLine.Where(x => x.Order_ID).FirstOrDefault();
+            var customerId = Convert.ToInt32(Session["idUser"]);
 
-        //    var productlist = db.Product.Include(p => p.Category).Include(p => p.Manufacturer).ToList();
-
-        //    foreach (var product in productlist)
-        //    {
-        //        var temp_line = new OrderLineProductViewModel()
-        //        {
-
-        //        };
+            // get Customer
+            var customer = db.Customer
+                .Include(x => x.OrderTable)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
 
-        //    }
+            // get orderTable from customer
+            var oderTable = db.OrderTable
+                .Include(x => x.Customer)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+            var orderId = oderTable.Order_ID;
+            var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+            var showList = new List<OrderLineProductViewModel>();
+
+           
+
+            foreach (var orderline in orderLine)
+            {
+                // Fill up line
+                var temp_line = new OrderLineProductViewModel()
+                {
+                        ID = orderline.OrderLine_ID,
+                        Order_Id = orderline.Order_ID ?? default(int),
+                        Amount = orderline.Amount ?? default(int)
+
+                        
+                };
+                showList.Add(temp_line);
+
+            }
+
+            
 
 
-        //    return View();
-        //}
+
+
+
+            return View(showList);
+        }
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
