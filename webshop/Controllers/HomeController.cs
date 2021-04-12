@@ -78,6 +78,7 @@ namespace webshop.Controllers
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.Customer.Add(newCustomer);
                     db.OrderTable.Add(newOrder);
+                    db.OrderLine.Add(newOrderLine);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
