@@ -6,15 +6,26 @@
 
 <h2>Product</h2>
 
+<br/>
+@using (Html.BeginForm("Product", "Products", FormMethod.Get))
+{
 <p>
-    @Html.ActionLink("Create New", "Create")
+    Filter:
+    Manufacturer @Html.CheckBox("filterM", true)
+    Category @Html.CheckBox("filterC", true)
+    <br/>
+    @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+    <input type="submit" value="Search" />
 </p>
+   
 
+
+}
 
 <table class="table">
     <tr>
         <th>
-            
+          
         </th>
         <th>
             Product
@@ -28,27 +39,27 @@
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        <img src="@Url.Content(item.ImagePath)" alt="Image" />
-        @Html.DisplayFor(modelItem => item.ImagePath)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Product_Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.NetUnitPrice) €
-    </td>
+        <tr>
+            <td>
+                <img src="@Url.Content(item.ImagePath)" width="50" height="60">
+                
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetUnitPrice) €
+            </td>
 
 
-    <td>
+            <td>
 
-        @Html.ActionLink("Add", "Edit", new { id = item.Product_ID }) |
+                @Html.ActionLink("Add", "Edit", new { id = item.Product_ID }) |
 
-        @Html.ActionLink("Details", "Details", new { id = item.Product_ID }) 
+                @Html.ActionLink("Details", "Details", new { id = item.Product_ID })
 
-    </td>
-</tr>
+            </td>
+        </tr>
     }
 
 </table>

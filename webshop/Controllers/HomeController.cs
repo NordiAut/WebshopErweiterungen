@@ -68,6 +68,11 @@ namespace webshop.Controllers
                     newOrder.FirstName = newCustomer.FirstName;
                     newOrder.LastName = newCustomer.LastName;
 
+                    //Add new orderline to customerID
+                    var newOrderLine = new OrderLine();
+                    newOrderLine.Order_ID = newOrder.Order_ID;
+
+
 
 
                     db.Configuration.ValidateOnSaveEnabled = false;
