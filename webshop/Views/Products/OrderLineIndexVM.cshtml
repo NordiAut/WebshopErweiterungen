@@ -4,19 +4,33 @@
     ViewBag.Title = "OrderLineIndexVM";
 }
 
-<h2>OrderLineIndexVM</h2>
+<h2>Shopping Cart</h2>
 
-
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Order_Id)
+           
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Manufacturer_Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PMCVM)
+            @Html.DisplayNameFor(model => model.NetUnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.priceLine)
         </th>
         <th></th>
     </tr>
@@ -24,13 +38,25 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Order_Id)
+            <img src="@Url.Content(item.ImagePath)" width="50" height="60">
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Manufacturer_Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PMCVM)
+            @Html.DisplayFor(modelItem => item.NetUnitPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.priceLine)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
@@ -39,5 +65,31 @@
         </td>
     </tr>
 }
+
+<tr>
+    <td>
+     
+    </td>
+    <td>
+       
+    </td>
+    <td>
+     
+    </td>
+    <td>
+       
+    </td>
+    <td>
+       
+    <td>
+       Total price:
+    </td>
+    <td>
+        @ViewBag.Total
+    </td>
+    <td>
+      
+    </td>
+</tr>
 
 </table>

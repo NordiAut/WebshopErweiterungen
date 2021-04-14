@@ -1,4 +1,5 @@
-﻿@model webshop.Product
+﻿@using Microsoft.Ajax.Utilities
+@model webshop.Product
 
 @{
     ViewBag.Title = "Details";
@@ -60,7 +61,12 @@
 
     </dl>
 </div>
+
+<form>
+    <label for="addNumber">Add</label> 
+    <input type="text" id="addNumber" name="num" style="width: 30px"><br>
+</form>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Product_ID }) |
+    @Html.ActionLink("Add", "Addmultiple", new { id = Model.Product_ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

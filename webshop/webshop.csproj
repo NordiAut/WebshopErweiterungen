@@ -240,12 +240,13 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Products\Product.cshtml" />
+    <Content Include="Views\Products\OrderLineIndexVM.cshtml" />
     <Content Include="Views\OrderLines\Create.cshtml" />
     <Content Include="Views\OrderLines\Delete.cshtml" />
     <Content Include="Views\OrderLines\Details.cshtml" />
     <Content Include="Views\OrderLines\Edit.cshtml" />
     <Content Include="Views\OrderLines\Index.cshtml" />
-    <Content Include="Views\Products\OrderLineIndexVM.cshtml" />
+    <Content Include="Views\Products\EmptyCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

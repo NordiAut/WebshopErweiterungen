@@ -68,17 +68,10 @@ namespace webshop.Controllers
                     newOrder.FirstName = newCustomer.FirstName;
                     newOrder.LastName = newCustomer.LastName;
 
-                    //Add new orderline to customerID
-                    var newOrderLine = new OrderLine();
-                    newOrderLine.Order_ID = newOrder.Order_ID;
-
-
-
 
                     db.Configuration.ValidateOnSaveEnabled = false;
                     db.Customer.Add(newCustomer);
                     db.OrderTable.Add(newOrder);
-                    db.OrderLine.Add(newOrderLine);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }

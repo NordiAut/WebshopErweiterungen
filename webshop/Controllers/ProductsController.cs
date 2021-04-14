@@ -58,6 +58,8 @@ namespace webshop.Controllers
             return View(product.ToList());
         }
 
+        
+
 
         public ActionResult OrderLineIndexVM()
         {
@@ -79,31 +81,231 @@ namespace webshop.Controllers
             var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
             var showList = new List<OrderLineProductViewModel>();
 
-           
+            decimal total = 0.0m;
 
-            foreach (var orderline in orderLine)
+            bool isEmpty = !orderLine.Any();
+            if (isEmpty)
             {
+                return RedirectToAction("EmptyCart");
+            }
+
+            foreach (var line in orderLine)
+            {
+
+                var product = db.Product.Where(x => x.Product_ID == line.Product_ID).FirstOrDefault();
                 // Fill up line
                 var temp_line = new OrderLineProductViewModel()
                 {
-                        ID = orderline.OrderLine_ID,
-                        Order_Id = orderline.Order_ID ?? default(int),
-                        Amount = orderline.Amount ?? default(int)
+                        ID = line.OrderLine_ID,
+                        Order_Id = line.Order_ID,
+                        Amount = line.Amount,
+                        NetUnitPrice = line.NetUnitPrice,
+                        TaxRate = line.TaxRate,
+                        Product_ID = line.Product_ID,
+                        Product_Name = product.Product_Name,
+                        ImagePath = product.ImagePath,
+                        Manufacturer_Name = product.Manufacturer.Manufacturer_Name,
+                        priceLine = line.Amount * line.NetUnitPrice
 
-                        
                 };
                 showList.Add(temp_line);
 
+               total += temp_line.priceLine ?? default;
             }
 
             
 
+            total = Math.Round(total, 2);
 
 
+            ViewBag.Total = total;
 
 
             return View(showList);
         }
+
+
+
+        //function to add ONE item to the shopping cart
+        public ActionResult Add(int? id)
+        {
+            // When not logged in, redirect to login
+            if (Session["idUser"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = db.Product.Where(p => p.Product_ID == id).FirstOrDefault();
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (product != null)
+            {
+
+                var customerId = Convert.ToInt32(Session["idUser"]);
+
+                // get Customer
+                var customer = db.Customer
+                    .Include(x => x.OrderTable)
+                    .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+
+                // get orderTable from customer
+                var orderTable = db.OrderTable
+                    .Include(x => x.Customer)
+                    .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+                var orderId = orderTable.Order_ID;
+                // get list of orderlines
+                var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+
+                // get orderline with productID 
+                var orderlineProduct = orderLine.Where(o => o.Product_ID == product.Product_ID).FirstOrDefault();
+
+                // Check if list contains product
+                if (orderlineProduct != null)
+                {
+                    // create new orderline
+                    var newOrderLine = new OrderLine()
+                    {
+                        Order_ID = orderlineProduct.Order_ID,
+                        Product_ID = orderlineProduct.Product_ID,
+                        Amount = orderlineProduct.Amount,
+                        NetUnitPrice = orderlineProduct.NetUnitPrice,
+                        TaxRate = product.Category.TaxRate
+                    };
+
+                    //increment by 1 
+                    newOrderLine.Amount++;
+
+                    //change DB 
+                    db.OrderLine.Add(newOrderLine);
+                    db.OrderLine.Remove(orderlineProduct);
+                    db.SaveChanges();
+
+                } // If not add product to list
+                else
+                {
+                    // create new orderline
+                    var newOrderLine = new OrderLine()
+                    {
+                        Order_ID = orderTable.Order_ID,
+                        Product_ID = product.Product_ID,
+                        Amount = 1,
+                        NetUnitPrice = product.NetUnitPrice,
+                        TaxRate = product.Category.TaxRate
+                    };
+
+                    // change db
+                    db.OrderLine.Add(newOrderLine);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Product");
+        }
+
+
+        //function to add multiple items to the shopping cart
+        public ActionResult AddMultiple(int? id, int num)
+        {
+            // When not logged in, redirect to login
+            if (Session["idUser"] == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var product = db.Product.Where(p => p.Product_ID == id).FirstOrDefault();
+
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (product != null)
+            {
+
+                var customerId = Convert.ToInt32(Session["idUser"]);
+
+                // get Customer
+                var customer = db.Customer
+                    .Include(x => x.OrderTable)
+                    .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+
+                // get orderTable from customer
+                var orderTable = db.OrderTable
+                    .Include(x => x.Customer)
+                    .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+                var orderId = orderTable.Order_ID;
+                // get list of orderlines
+                var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+
+                // get orderline with productID 
+                var orderlineProduct = orderLine.Where(o => o.Product_ID == product.Product_ID).FirstOrDefault();
+
+                // Check if list contains product
+                if (orderlineProduct != null)
+                {
+                    // create new orderline
+                    var newOrderLine = new OrderLine()
+                    {
+                        Order_ID = orderlineProduct.Order_ID,
+                        Product_ID = orderlineProduct.Product_ID,
+                        Amount = orderlineProduct.Amount,
+                        NetUnitPrice = orderlineProduct.NetUnitPrice,
+                        TaxRate = product.Category.TaxRate
+                    };
+
+                    //add num
+                    newOrderLine.Amount += num;
+
+                    //change DB 
+                    db.OrderLine.Add(newOrderLine);
+                    db.OrderLine.Remove(orderlineProduct);
+                    db.SaveChanges();
+
+                } // If not add product to list
+                else
+                {
+                    // create new orderline
+                    var newOrderLine = new OrderLine()
+                    {
+                        Order_ID = orderTable.Order_ID,
+                        Product_ID = product.Product_ID,
+                        Amount = num,
+                        NetUnitPrice = product.NetUnitPrice,
+                        TaxRate = product.Category.TaxRate
+                    };
+
+                    // change db
+                    db.OrderLine.Add(newOrderLine);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Product");
+        }
+
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
@@ -215,6 +417,12 @@ namespace webshop.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult EmptyCart()
+        {
+            
+            return View();
         }
     }
 }
