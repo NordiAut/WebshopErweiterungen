@@ -124,6 +124,14 @@ namespace webshop.Controllers
             return View(showList);
         }
 
+        [HttpPost]
+        public ActionResult ShoppingCart(int? id, int? amount)
+        {
+
+
+
+            return View();
+        }
 
 
         //function to add ONE item to the shopping cart
@@ -327,8 +335,39 @@ namespace webshop.Controllers
             return RedirectToAction("Product");
         }
 
+        // POST: Products/Remove/5
+        
+       
+        public ActionResult Remove(int id)
+        {
 
-      
+            var customerId = Convert.ToInt32(Session["idUser"]);
+
+            // get Customer
+            var customer = db.Customer
+                .Include(x => x.OrderTable)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+
+            // get orderTable from customer
+            var orderTable = db.OrderTable
+                .Include(x => x.Customer)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+            var orderId = orderTable.Order_ID;
+            // get list of orderlines
+            var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+
+            // get orderline with productID 
+            var orderlineProduct = orderLine.Where(o => o.OrderLine_ID == id).FirstOrDefault();
+
+            db.OrderLine.Remove(orderlineProduct);
+            db.SaveChanges();
+            return RedirectToAction("ShoppingCart");
+        }
+
+
+
         // GET: Products/Create
         public ActionResult Create()
         {
