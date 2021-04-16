@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,9 @@ namespace webshop.ViewModel
 
         public Nullable<int> Order_Id { get; set; }
 
-        [DisplayName("Amount")]
+        [DisplayName("Amount")] 
+        [RegularExpression("([1-9]|10)", ErrorMessage = "Count must be a natural number")]
+
         public Nullable<int> Amount { get; set; }
 
         [DisplayName("Price")]

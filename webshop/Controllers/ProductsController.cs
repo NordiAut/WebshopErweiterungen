@@ -125,10 +125,35 @@ namespace webshop.Controllers
         }
 
         [HttpPost]
-        public ActionResult ShoppingCart(IEnumerable<webshop.ViewModel.OrderLineProductViewModel> orderlineList)
+        public ActionResult ShoppingCart(IList<webshop.ViewModel.OrderLineProductViewModel> orderlineList)
         {
+            foreach (var orderLine in orderlineList)
+            {
+                var orderLineDB = db.OrderLine
+                    .Include(o => o.Product)
+                    .Include(o => o.OrderTable)
+                    .Where(o => o.OrderLine_ID == orderLine.ID).FirstOrDefault();
 
+                var product = db.Product.Where(p => p.Product_ID == orderLineDB.Product_ID).FirstOrDefault();
 
+                // create new orderline 
+                var newOrderLine = new OrderLine()
+                {
+                    Order_ID = orderLineDB.Order_ID,
+                    Product_ID = orderLineDB.Product_ID,
+                    Amount = orderLine.Amount,
+                    NetUnitPrice = orderLineDB.NetUnitPrice,
+                    TaxRate = product.Category.TaxRate
+                };
+
+                newOrderLine.Amount = orderLine.Amount;
+
+                db.OrderLine.Add(newOrderLine);
+                db.OrderLine.Remove(orderLineDB);
+                
+            }
+
+            db.SaveChanges();
 
             return RedirectToAction("ShoppingCart");
         }
@@ -186,15 +211,16 @@ namespace webshop.Controllers
                 var orderlineProduct = orderLine.Where(o => o.Product_ID == product.Product_ID).FirstOrDefault();
 
                 // When not logged in, redirect to login
-                if (orderlineProduct.Amount == 10)
-                {
-                    
-                    return RedirectToAction("Product");
-                }
+                
 
                 // Check if list contains product
                 if (orderlineProduct != null)
                 {
+                    if (orderlineProduct.Amount == 10)
+                    {
+
+                        return RedirectToAction("Product");
+                    }
                     // create new orderline
                     var newOrderLine = new OrderLine()
                     {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<webshop.ViewModel.OrderLineProductViewModel>
+﻿@model IList<webshop.ViewModel.OrderLineProductViewModel>
 
 @{
     ViewBag.Title = "OrderLineIndexVM";
@@ -6,95 +6,99 @@
 
 <h2>Shopping Cart</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 
 @using (Html.BeginForm("ShoppingCart","Products",WebRequestMethods.Http.Post))
 {
-    <table class="table">
-        <tr>
-            <th>
+<table class="table">
+    <tr>
+        <th>
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product_ID)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Manufacturer_Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NetUnitPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.priceLine)
-            </th>
-            <th></th>
-        </tr>
+        </th>
+        <th>
+            ProduktNr.
+        </th>
+        <th>
+            Productname
+        </th>
+        <th>
+            Manufacturer
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Total
+        </th>
+        <th></th>
+    </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <img src="@Url.Content(item.ImagePath)" width="50" height="60">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product_ID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Product_Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manufacturer_Name)
-                </td>
-                <td>
-                  
-                    @Html.EditorFor(Modelitem => item.Amount,
-                        new {htmlAttributes = new {@class = "form-control"}})
-                    
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NetUnitPrice)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.priceLine)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new {id = item.ID}) |
-                    @Html.ActionLink("Details", "Details", new {id = item.Product_ID}) |
-                    @Html.ActionLink("Remove Item", "Remove", new {id = item.ID})
-                </td>
-            </tr>
-        }
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        @Html.HiddenFor(modelItem => Model[i].Order_Id)
+        @Html.HiddenFor(modelItem => Model[i].ID)
 
-        <tr>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
-            </td>
-            <td>
+<tr>
+    <td>
+        <img src="@Url.Content(Model[1].ImagePath)" width="50" height="60">
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].Product_ID)
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].Product_Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].Manufacturer_Name)
+    </td>
+    <td>
+
+        @Html.EditorFor(Modelitem => Model[i].Amount,
+            new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", max = "10" } })
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].NetUnitPrice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model[i].priceLine)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model[i].ID }) |
+        @Html.ActionLink("Details", "Details", new { id = Model[i].Product_ID }) |
+        @Html.ActionLink("Remove Item", "Remove", new { id = Model[i].ID })
+    </td>
+    @Html.ValidationMessageFor(Modelitem => Model[i].Amount, "", new { @class = "text-danger" })
+
+</tr>
+    }
+   
+    <tr>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+        <td>
             <input type="submit" value="Update" class="btn btn-default" />
-            <td>
-                Total price:
-            </td>
-            <td>
-                @ViewBag.Total
-            </td>
-            <td>
-            </td>
-        </tr>
+        <td>
+            <p style="font-size: medium"> Total price:</p>
+        </td>
+        <td>
+            @ViewBag.Total
+        </td>
+        <td>
+        </td>
+    </tr>
 
-    </table>
+</table>
 }
 
 @section Scripts {
