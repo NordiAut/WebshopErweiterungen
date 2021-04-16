@@ -125,18 +125,20 @@ namespace webshop.Controllers
         }
 
         [HttpPost]
-        public ActionResult ShoppingCart(int? id, int? amount)
+        public ActionResult ShoppingCart(IEnumerable<webshop.ViewModel.OrderLineProductViewModel> orderlineList)
         {
 
 
 
-            return View();
+            return RedirectToAction("ShoppingCart");
         }
 
 
         //function to add ONE item to the shopping cart
         public ActionResult Add(int? id)
         {
+            
+
             // When not logged in, redirect to login
             if (Session["idUser"] == null)
             {
@@ -182,6 +184,13 @@ namespace webshop.Controllers
 
                 // get orderline with productID 
                 var orderlineProduct = orderLine.Where(o => o.Product_ID == product.Product_ID).FirstOrDefault();
+
+                // When not logged in, redirect to login
+                if (orderlineProduct.Amount == 10)
+                {
+                    
+                    return RedirectToAction("Product");
+                }
 
                 // Check if list contains product
                 if (orderlineProduct != null)
@@ -292,9 +301,10 @@ namespace webshop.Controllers
                 // get orderline with productID 
                 var orderlineProduct = orderLine.Where(o => o.Product_ID == product.Product_ID).FirstOrDefault();
 
+               
                 // Check if list contains product
-                if (orderlineProduct != null)
-                {
+                    if (orderlineProduct != null)
+                    {
                     // create new orderline
                     var newOrderLine = new OrderLine()
                     {
@@ -306,7 +316,16 @@ namespace webshop.Controllers
                     };
 
                     //add num
-                    newOrderLine.Amount += number;
+
+                    if (orderlineProduct.Amount + number > 10)
+                    {
+                        newOrderLine.Amount = 10;
+                    }
+                    else
+                    {
+                        newOrderLine.Amount += number;
+                    }
+
 
                     //change DB 
                     db.OrderLine.Add(newOrderLine);
