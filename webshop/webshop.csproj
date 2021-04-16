@@ -247,6 +247,7 @@
     <Content Include="Views\OrderLines\Edit.cshtml" />
     <Content Include="Views\OrderLines\Index.cshtml" />
     <Content Include="Views\Products\EmptyCart.cshtml" />
+    <Content Include="Views\Products\ShoppingCart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

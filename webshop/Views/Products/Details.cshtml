@@ -62,11 +62,35 @@
     </dl>
 </div>
 
-<form>
-    <label for="addNumber">Add</label> 
-    <input type="text" id="addNumber" name="num" style="width: 30px"><br>
-</form>
-<p>
-    @Html.ActionLink("Add", "Addmultiple", new { id = Model.Product_ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+@using (Html.BeginForm())
+{
+    
+
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+
+        @Html.HiddenFor(model => model.Product_ID)
+
+   
+
+        <div class="form-group col-lg-12">
+            <div class="col-md-3">
+                <input type="number" name="number"  min="0"  max="10" class="form-control text-center" placeholder="1">
+          
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Add to Card" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+   
+}
+<div>
+    <p>
+      
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
+
+</div>

@@ -61,7 +61,7 @@ namespace webshop.Controllers
         
 
 
-        public ActionResult OrderLineIndexVM()
+        public ActionResult ShoppingCart()
         {
 
             var customerId = Convert.ToInt32(Session["idUser"]);
@@ -218,9 +218,25 @@ namespace webshop.Controllers
             return RedirectToAction("Product");
         }
 
+        
+        // GET: Products/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Product.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
 
         //function to add multiple items to the shopping cart
-        public ActionResult AddMultiple(int? id, int num)
+        [HttpPost]
+        public ActionResult Details(int? id, int? number)
         {
             // When not logged in, redirect to login
             if (Session["idUser"] == null)
@@ -238,6 +254,11 @@ namespace webshop.Controllers
             if (product == null)
             {
                 return HttpNotFound();
+            }
+
+            if (number == null)
+            {
+                number = 1;
             }
 
             if (product != null)
@@ -277,7 +298,7 @@ namespace webshop.Controllers
                     };
 
                     //add num
-                    newOrderLine.Amount += num;
+                    newOrderLine.Amount += number;
 
                     //change DB 
                     db.OrderLine.Add(newOrderLine);
@@ -292,7 +313,7 @@ namespace webshop.Controllers
                     {
                         Order_ID = orderTable.Order_ID,
                         Product_ID = product.Product_ID,
-                        Amount = num,
+                        Amount = number,
                         NetUnitPrice = product.NetUnitPrice,
                         TaxRate = product.Category.TaxRate
                     };
@@ -307,21 +328,7 @@ namespace webshop.Controllers
         }
 
 
-        // GET: Products/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Product product = db.Product.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
-            return View(product);
-        }
-
+      
         // GET: Products/Create
         public ActionResult Create()
         {
