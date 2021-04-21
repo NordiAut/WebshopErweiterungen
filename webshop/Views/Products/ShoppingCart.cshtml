@@ -68,8 +68,8 @@
         @Html.DisplayFor(modelItem => Model[i].priceLine)
     </td>
     <td>
-        @Html.ActionLink("Edit", "Edit", new { id = Model[i].ID }) |
-        @Html.ActionLink("Details", "Details", new { id = Model[i].Product_ID }) |
+        
+        @Html.ActionLink("Product-Details", "Details", new { id = Model[i].Product_ID }) |
         @Html.ActionLink("Remove Item", "Remove", new { id = Model[i].ID })
     </td>
     @Html.ValidationMessageFor(Modelitem => Model[i].Amount, "", new { @class = "text-danger" })

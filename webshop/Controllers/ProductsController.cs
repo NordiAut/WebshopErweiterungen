@@ -22,43 +22,93 @@ namespace webshop.Controllers
             return View(product.ToList());
         }
 
-        public ActionResult Product(string searchString, string currentFilter, bool? filterM, bool? filterC)
+        public ActionResult Product(string searchString, string CategoryFilter = "", string ManufactorerFilter = "")
         {
-            // standard product list
-            var product = db.Product.Include(p => p.Category).Include(p => p.Manufacturer);
+            var vm = new FilterAndSearchViewModel();
 
-            //Search box
-            if (!String.IsNullOrEmpty(searchString))
+
+
+            vm.CategoryListItem = new List<SelectListItem>();
+
+            foreach (var category in db.Category)
             {
-                product = db.Product
-                    .Include(p => p.Category)
-                    .Include(p => p.Manufacturer)
-                    .Where(p => p.Product_Name.Contains(searchString)
-                                    || p.Category.Category_Name.Contains(searchString)
-                                    || p.Manufacturer.Manufacturer_Name.Contains(searchString));
-
-                // When category is checked and Manufacturer unchecked
-                if (filterM == false & filterC == true)
-                {
-                    product = db.Product
-                        .Include(p => p.Category)
-                        .Where(p => p.Category.Category_Name.Contains(searchString));
-                }
-                // When Manufacturer is checked and category unchecked
-                if (filterM == true & filterC == false)
-                {
-                    product = db.Product
-                        .Include(p => p.Category)
-                        .Where(p => p.Manufacturer.Manufacturer_Name.Contains(searchString));
-                }
+                vm.CategoryListItem.Add(
+                        new SelectListItem { Value = category.Category_Name, Text = category.Category_Name }
+                    );
 
             }
 
+            vm.ManufacturerListItem = new List<SelectListItem>();
 
-            return View(product.ToList());
+            foreach (var manufacturer in db.Manufacturer)
+            {
+                vm.ManufacturerListItem.Add(
+                    new SelectListItem { Value = manufacturer.Manufacturer_Name, Text = manufacturer.Manufacturer_Name }
+                );
+
+            }
+
+            var data = db.Product;
+            var product = db.Product.Include(p => p.Category).Include(p => p.Manufacturer);
+
+            string categoryName = CategoryFilter;
+            string manufacturerName = ManufactorerFilter;
+
+
+
+            // When input contains searchstring
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                product = db.Product.Where(p => p.Product_Name.Contains(searchString));
+
+                // When category is selected
+                if (!String.IsNullOrEmpty(CategoryFilter) && String.IsNullOrEmpty(ManufactorerFilter))
+                {
+                    product = db.Product.Where(p => p.Category.Category_Name == categoryName)
+                        .Where(p => p.Product_Name.Contains(searchString));
+                }
+
+                // When manufacturer is selected
+                if (!String.IsNullOrEmpty(ManufactorerFilter) && String.IsNullOrEmpty(CategoryFilter))
+                {
+                    product = db.Product.Where(p => p.Manufacturer.Manufacturer_Name == manufacturerName)
+                        .Where(p => p.Product_Name.Contains(searchString));
+                }
+
+                // When manufacturer and category are selected
+                if (!String.IsNullOrEmpty(ManufactorerFilter) && !String.IsNullOrEmpty(CategoryFilter))
+                {
+                    product = db.Product.Where(p => p.Manufacturer.Manufacturer_Name == manufacturerName)
+                          .Where(p => p.Category.Category_Name == categoryName)
+                          .Where(p => p.Product_Name.Contains(searchString));
+                }
+            }
+            else
+            {
+                // When manufacturer and category are selected
+                if (!String.IsNullOrEmpty(ManufactorerFilter) && !String.IsNullOrEmpty(CategoryFilter))
+                {
+                    product = db.Product.Where(p => p.Manufacturer.Manufacturer_Name == manufacturerName)
+                        .Where(p => p.Category.Category_Name == categoryName);
+                }
+                if (!String.IsNullOrEmpty(CategoryFilter) && String.IsNullOrEmpty(ManufactorerFilter))
+                {
+                    product = db.Product.Where(p => p.Category.Category_Name == categoryName);
+                }
+                // When manufacturer is selected
+                if (!String.IsNullOrEmpty(ManufactorerFilter) && String.IsNullOrEmpty(CategoryFilter))
+                {
+                    product = db.Product.Where(p => p.Manufacturer.Manufacturer_Name == manufacturerName);
+                }
+            }
+
+
+            // vm.Data = data.ToList();
+            vm.Data = product.ToList();
+            return View(vm);
         }
 
-        
+
 
 
         public ActionResult ShoppingCart()

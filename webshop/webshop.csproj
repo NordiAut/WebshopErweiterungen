@@ -171,6 +171,7 @@
       <DependentUpon>ModelWebshop.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\FilterAndSearchViewModel.cs" />
     <Compile Include="ViewModel\OrderLineProductViewModel.cs" />
     <Compile Include="ViewModel\PMCViewModel.cs" />
   </ItemGroup>
