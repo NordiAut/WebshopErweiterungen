@@ -27,6 +27,8 @@ namespace webshop.ViewModel
         public string DeliveryFirstName { get; set; }
         public string DeliveryLastName { get; set; }
 
+        public string Payment;
+
         public List<OrderLineProductViewModel> OrderLineProductList { set; get; }
 
     }
