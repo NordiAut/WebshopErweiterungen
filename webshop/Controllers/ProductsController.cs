@@ -166,8 +166,6 @@ namespace webshop.Controllers
             
 
             total = Math.Round(total, 2);
-
-
             ViewBag.Total = total;
 
 

@@ -1,7 +1,207 @@
-﻿
+﻿@model webshop.ViewModel.OrderCustomerOrderLine
 @{
     ViewBag.Title = "Checkout";
 }
 
 <h2>Checkout</h2>
 
+<div>
+
+    <div class="col-lg-12">
+
+        <h2>Products</h2>
+        <table class="table">
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    ProduktNr.
+                </th>
+                <th>
+                    Productname
+                </th>
+                <th>
+                    Manufacturer
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Total
+                </th>
+                <th></th>
+            </tr>
+
+
+            @for (var i = 0; i < Model.OrderLineProductList.Count(); i++)
+            {
+
+                @Html.HiddenFor(modelItem => Model.OrderLineProductList[i].Order_Id)
+                @Html.HiddenFor(modelItem => Model.OrderLineProductList[i].ID)
+
+                <tr>
+                    <td>
+                        <img src="@Url.Content(Model.OrderLineProductList[i].ImagePath)" width="50" height="60">
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].Product_ID)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].Product_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].Manufacturer_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].Amount)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].NetUnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].priceLine)
+                    </td>
+                    <td>
+                    </td>
+                    @Html.ValidationMessageFor(Modelitem => Model.OrderLineProductList[i].Amount, "", new { @class = "text-danger" })
+
+                </tr>
+            }
+
+            <tr>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+
+                <td>
+                    <p style="font-size: medium"> Total price:</p>
+                </td>
+                <td>
+                    @ViewBag.Total
+                </td>
+                <td>
+
+
+            </tr>
+        </table>
+        <hr/>
+    </div>
+
+    <div class="col-lg-12">
+        
+        <div class="col-lg-6">
+            <h2>Invoice adress</h2>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Street)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Street)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Zip)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Zip)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.City)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.City)
+                </dd>
+
+            </dl>
+        </div>
+        
+        <div class="col-lg-6">
+        
+            <h3>Delivery adress</h3>
+            @using (Html.BeginForm("Checkout", "Checkout", WebRequestMethods.Http.Post))
+            {
+                <div class="form-horizontal">
+           
+
+                    <div>
+               
+                        @Html.DisplayNameFor(model => model.FirstName)
+                
+                        @Html.EditorFor(model => model.DeliveryFirstName, new { htmlAttributes = new { @class = "form-control" } })
+             
+                    </div>
+                    <div>
+                        @Html.DisplayNameFor(model => model.LastName)
+
+                        @Html.EditorFor(model => model.DeliveryLastName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+
+                    <div>
+                        @Html.DisplayNameFor(model => model.Street)
+
+                        @Html.EditorFor(model => model.DeliveryStreet, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div>
+                        @Html.DisplayNameFor(model => model.DeliveryZip)
+
+                        @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+
+                </div>
+
+            }
+
+        </div>
+
+        
+    </div>
+    <div class="col-lg-12">
+        
+        <div>
+            
+
+        </div>
+    </div>
+
+</div>

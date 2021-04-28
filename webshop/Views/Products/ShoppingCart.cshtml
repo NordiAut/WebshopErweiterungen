@@ -98,7 +98,7 @@
         </td>
         <td>
         
-        <input type="button" value="Proceed to Checkout" onclick="location.href='@Url.Action("Checkout", "Checkout")'" />
+        <input type="button" value="Proceed to Checkout" onclick="location.href='@Url.Action("Checkout", "Checkout", new { OrderlineProductVMList = Model, id = Model[0].Order_Id })'" />
     </tr>
 
 </table>
