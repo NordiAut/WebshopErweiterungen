@@ -10,13 +10,14 @@ namespace webshop.Controllers
     public class CheckoutController : Controller
     {
         private webshopEntities db = new webshopEntities();
+        public static List<OrderCustomerOrderLine> OrderCustomerOrderLineList = new List<OrderCustomerOrderLine>();
 
         // GET: Checkout
         public ActionResult Index()
         {
             return View();
         }
-
+        [HttpGet]
         public ActionResult Checkout(int id)
         {
             var checkoutObject = new OrderCustomerOrderLine();
@@ -90,7 +91,8 @@ namespace webshop.Controllers
             //add cartlist to checkoutObject
             checkoutObject.OrderLineProductList = cartlist;
 
-
+            OrderCustomerOrderLineList.Remove(OrderCustomerOrderLineList.Where(x => x.Order_Id == checkoutObject.Order_Id).FirstOrDefault());
+            OrderCustomerOrderLineList.Add(checkoutObject);
 
 
 
@@ -98,5 +100,39 @@ namespace webshop.Controllers
 
             return View(checkoutObject);
         }
+
+        [HttpPost]
+        public ActionResult Checkout(OrderCustomerOrderLine orderobject)
+        {
+            var tempOrder = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderobject.Order_Id).FirstOrDefault();
+
+            tempOrder.DeliveryFirstName = orderobject.DeliveryFirstName;
+            tempOrder.DeliveryLastName = orderobject.DeliveryLastName;
+            tempOrder.DeliveryStreet = orderobject.DeliveryStreet;
+            tempOrder.DeliveryZip = orderobject.DeliveryZip;
+            tempOrder.DeliveryCity = orderobject.DeliveryCity;
+
+
+
+            return View(tempOrder);
+        }
+
+        public ActionResult PaymentOptions(int orderId, string payment)
+        {
+            var orderObject = new OrderCustomerOrderLine();
+            orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
+            if (payment == "invoice")
+            {
+                return RedirectToAction("Invoice", orderObject);
+            }
+            return RedirectToAction("Checkout");
+        }
+
+        public ActionResult Invoice(OrderCustomerOrderLine orderObject)
+        {
+            return View(orderObject);
+        }
+
+
     }
 }

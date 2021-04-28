@@ -253,6 +253,7 @@
     <Content Include="Views\Products\ShoppingCart.cshtml" />
     <Content Include="Views\Checkout\Index.cshtml" />
     <Content Include="Views\Checkout\Checkout.cshtml" />
+    <Content Include="Views\Checkout\Invoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
