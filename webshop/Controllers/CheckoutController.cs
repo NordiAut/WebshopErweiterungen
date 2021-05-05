@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Rotativa;
+using Rotativa.Options;
 using webshop.ViewModel;
 
 namespace webshop.Controllers
@@ -141,10 +142,20 @@ namespace webshop.Controllers
 
         public ActionResult Invoice(OrderCustomerOrderLine orderObject)
         {
-            
+            var invoice = new Rotativa.ActionAsPdf("InvoicePDF", orderObject);
             // create invoice PDF
-            var invoicePDF = new Rotativa.ActionAsPdf("InvoicePDF", orderObject);
-           
+            var invoicePDF = new Rotativa.ActionAsPdf("InvoicePDF", orderObject)
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = { Left = 1, Right = 1 }
+            };
+            byte[] byteArray = invoicePDF.BuildPdf(ControllerContext);
+
+            var fileStream = new FileStream("B:/Applikationsentwickler/invoice.pdf", FileMode.Create, FileAccess.Write);
+            fileStream.Write(byteArray, 0, byteArray.Length);
+            fileStream.Close();
 
             //TODO Email
             string from = "oliver.rotter@gmx.at"; 
@@ -157,7 +168,7 @@ namespace webshop.Controllers
                 //mail.Attachments.Add(new Attachment(new MemoryStream(byteArray), "Invoice"));
                 //mail.Attachments.Add(attPDF);
 
-
+                mail.Attachments.Add(new Attachment(@"B:/Applikationsentwickler/invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "mail.gmx.net";
@@ -170,8 +181,8 @@ namespace webshop.Controllers
                 
             }
 
-            return invoicePDF;
-            //return View(orderObject);
+            //return invoice;
+            return View(orderObject);
         }
 
         public ActionResult InvoicePDF(OrderCustomerOrderLine orderObject)
