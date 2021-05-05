@@ -12,11 +12,13 @@ namespace webshop.Controllers
         private webshopEntities db = new webshopEntities();
         public static List<OrderCustomerOrderLine> OrderCustomerOrderLineList = new List<OrderCustomerOrderLine>();
 
-        // GET: Checkout
+        
         public ActionResult Index()
         {
             return View();
         }
+
+        // GET: Checkout
         [HttpGet]
         public ActionResult Checkout(int id)
         {
@@ -119,9 +121,14 @@ namespace webshop.Controllers
 
         public ActionResult PaymentOptions(int orderId, string payment)
         {
+            
             var orderObject = new OrderCustomerOrderLine();
             orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
-            if (payment == "invoice")
+            if (payment == null)
+            {
+                return RedirectToAction("Invoice", orderObject);
+            }
+            else if (payment == "invoice")
             {
                 return RedirectToAction("Invoice", orderObject);
             }
@@ -130,6 +137,56 @@ namespace webshop.Controllers
 
         public ActionResult Invoice(OrderCustomerOrderLine orderObject)
         {
+            
+            // create invoice PDF
+            var invoicePDF = new Rotativa.ActionAsPdf("InvoicePDF", orderObject);
+
+            //TODO Email
+            
+
+            return invoicePDF;
+            //return View(orderObject);
+        }
+
+        public ActionResult InvoicePDF(OrderCustomerOrderLine orderObject)
+        {
+            // fill cartlist
+            var orderLine = db.OrderLine.Where(o => o.Order_ID == orderObject.Order_Id).ToList();
+            var cartlist = new List<OrderLineProductViewModel>();
+
+            decimal total = 0.0m;
+            
+            foreach (var line in orderLine)
+            {
+
+                var product = db.Product.Where(x => x.Product_ID == line.Product_ID).FirstOrDefault();
+                // Fill up line
+                var temp_line = new OrderLineProductViewModel()
+                {
+                    ID = line.OrderLine_ID,
+                    Order_Id = line.Order_ID,
+                    Amount = line.Amount,
+                    NetUnitPrice = line.NetUnitPrice,
+                    TaxRate = line.TaxRate,
+                    Product_ID = line.Product_ID,
+                    Product_Name = product.Product_Name,
+                    ImagePath = product.ImagePath,
+                    Manufacturer_Name = product.Manufacturer.Manufacturer_Name,
+                    priceLine = line.Amount * line.NetUnitPrice
+
+                };
+                cartlist.Add(temp_line);
+
+                total += temp_line.priceLine ?? default;
+            }
+
+            //Total viewbag
+            total = Math.Round(total, 2);
+            ViewBag.Total = total;
+
+            //add cartlist to checkoutObject
+            orderObject.OrderLineProductList = cartlist;
+
             return View(orderObject);
         }
 
