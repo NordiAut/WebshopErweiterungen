@@ -173,7 +173,7 @@ namespace webshop.Controllers
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "mail.gmx.net";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "Oliver22!");
+                NetworkCredential networkCredential = new NetworkCredential(from, "password");
                 smtp.UseDefaultCredentials = true;
                 smtp.Credentials = networkCredential;
                 smtp.Port = 587;
