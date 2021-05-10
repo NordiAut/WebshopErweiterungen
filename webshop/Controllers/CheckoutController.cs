@@ -124,16 +124,16 @@ namespace webshop.Controllers
             return View(tempOrder);
         }
 
-        public ActionResult PaymentOptions(int orderId, string payment)
+        public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
         {
             
             var orderObject = new OrderCustomerOrderLine();
             orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
-            if (payment == null)
+            if (orderobject.Payment == null)
             {
                 return RedirectToAction("Invoice", orderObject);
             }
-            else if (payment == "invoice")
+            else if (orderobject.Payment == "invoice")
             {
                 return RedirectToAction("Invoice", orderObject);
             }
@@ -158,7 +158,7 @@ namespace webshop.Controllers
             fileStream.Close();
 
             //TODO Email
-            string from = "oliver.rotter@gmx.at"; 
+            string from = "oliver.rotter2@gmail.com"; 
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -171,10 +171,10 @@ namespace webshop.Controllers
                 mail.Attachments.Add(new Attachment(@"B:/Applikationsentwickler/invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "mail.gmx.net";
+                smtp.Host = "smtp.gmail.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "password");
-                smtp.UseDefaultCredentials = true;
+                NetworkCredential networkCredential = new NetworkCredential(from, "Nordland12!");
+                smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
                 smtp.Port = 587;
                 smtp.Send(mail);
