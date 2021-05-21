@@ -1,98 +1,107 @@
 ﻿@using Microsoft.Ajax.Utilities
+@using Microsoft.Ajax.Utilities
 @model webshop.Product
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
+<div class="row">
+    <h2>Details</h2>
+    <hr />
     <h4>Product</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Product_Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Product_Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NetUnitPrice)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NetUnitPrice)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImagePath)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImagePath)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Category_Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Category_Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Manufacturer.Manufacturer_Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Manufacturer.Manufacturer_Name)
-        </dd>
-
-    </dl>
 </div>
-
-@using (Html.BeginForm())
-{
-    
-
-    <div class="form-horizontal">
-        <h4>Product</h4>
-        <hr />
-
-        @Html.HiddenFor(model => model.Product_ID)
-
+<div class="row">
    
-
-    <div class="form-group col-lg-12">
-        <div class="col-md-3">
-            <input type="number" name="number" min="1" max="10" class="form-control text-center" placeholder="1">
-
-        </div>
-        <div class="col-md-3">
-            <input type="submit" value="Add to Cart" class="btn btn-default" />
-        </div>
-
+    <div class="col-md-2">
+        <img src="@Url.Content(Model.ImagePath)" width="100" height="100">
+       
      
     </div>
-    </div>
-   
-}
-<div>
-    <p>
-      
-        @Html.ActionLink("Back to List", "Index")
-    </p>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Product_Name)
+            </dt>
 
+            <dd>
+                @Html.DisplayFor(model => model.Product_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NetUnitPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NetUnitPrice) €
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Category_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Category.Category_Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Manufacturer.Manufacturer_Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Manufacturer.Manufacturer_Name)
+            </dd>
+
+        </dl>
+        
+        @using (Html.BeginForm())
+        {
+
+
+            <div class="form-horizontal">
+             
+
+                @Html.HiddenFor(model => model.Product_ID)
+
+
+
+                <div class="form-group col-lg-12">
+                    <div class="col-md-3">
+                        <input type="number" name="number" min="1" max="10" class="form-control text-center" placeholder="1">
+
+                    </div>
+                    <div class="col-md-3">
+                        <input type="submit" value="Add to Cart" class="btn btn-default" />
+                    </div>
+
+
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="col-md-4">
+       
+    </div>
+    
+</div>
+<div class="row">
+    
+    <hr />
 
 </div>
+<p>
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
