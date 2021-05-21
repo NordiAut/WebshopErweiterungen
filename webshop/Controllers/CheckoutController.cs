@@ -118,7 +118,7 @@ namespace webshop.Controllers
             tempOrder.DeliveryStreet = orderobject.DeliveryStreet;
             tempOrder.DeliveryZip = orderobject.DeliveryZip;
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
-
+            tempOrder.Payment = orderobject.Payment;
 
 
             return View(tempOrder);
@@ -129,7 +129,7 @@ namespace webshop.Controllers
             
             var orderObject = new OrderCustomerOrderLine();
             orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
-            if (orderobject.Payment == null)
+            if (orderObject.Payment == null)
             {
                 return RedirectToAction("Invoice", orderObject);
             }

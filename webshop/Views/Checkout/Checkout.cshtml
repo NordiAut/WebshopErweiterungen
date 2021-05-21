@@ -203,16 +203,12 @@
         <hr />
         <h2>Payment Methods</h2>
         <div>
-            @Html.HiddenFor(model => model.Payment)
-            <h3>@Html.RadioButtonFor(model => model.Payment, "invoice", new { @checked = true }) - Invoice </h3>
-           
+            
+            <h3>@Html.RadioButtonFor(model => model.Payment, "invoice", new {@checked = true, @name = "Payment"}) - Invoice </h3>
+
         </div>
         
-        <div>
-            @Html.HiddenFor(model => model.Payment)
-            <h3>@Html.RadioButtonFor(model => model.Payment, "Credit Card", new { @checked = false }) - Credit Card </h3>
-          
-        </div>
+       
         <div>
             <br/>
             <input type="submit" class="btn btn-default" value="Select payment"/>
