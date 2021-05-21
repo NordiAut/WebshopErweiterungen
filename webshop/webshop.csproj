@@ -133,7 +133,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Category.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
@@ -141,44 +141,44 @@
     <Compile Include="Controllers\OrderLinesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Customer.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Manufacturer.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs" />
-    <Compile Include="ModelWebshop.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelWebshop.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ModelWebshop.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ModelWebshop.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelWebshop.edmx</DependentUpon>
-    </Compile>
     <Compile Include="OrderLine.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="OrderTable.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>ModelWebshop.tt</DependentUpon>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\FilterAndSearchViewModel.cs" />
     <Compile Include="ViewModel\OrderCustomerOrderLine.cs" />
     <Compile Include="ViewModel\OrderLineProductViewModel.cs" />
     <Compile Include="ViewModel\PMCViewModel.cs" />
+    <Compile Include="WebshopModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebshopModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebshopModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebshopModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WebshopModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebshopModel.edmx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -189,30 +189,23 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="ModelWebshop.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelWebshop.edmx</DependentUpon>
-      <LastGenOutput>ModelWebshop.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="ModelWebshop.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ModelWebshop.edmx</DependentUpon>
-      <LastGenOutput>ModelWebshop.cs</LastGenOutput>
-    </Content>
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
     <Content Include="Rotativa\wkhtmltoimage.exe" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="ModelWebshop.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ModelWebshop.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="ModelWebshop.edmx.diagram">
-      <DependentUpon>ModelWebshop.edmx</DependentUpon>
-    </Content>
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="WebshopModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebshopModel.edmx</DependentUpon>
+      <LastGenOutput>WebshopModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="WebshopModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebshopModel.edmx</DependentUpon>
+      <LastGenOutput>WebshopModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -263,6 +256,13 @@
     <Content Include="Views\Checkout\Checkout.cshtml" />
     <Content Include="Views\Checkout\Invoice.cshtml" />
     <Content Include="Views\Checkout\InvoicePDF.cshtml" />
+    <EntityDeploy Include="WebshopModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebshopModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="WebshopModel.edmx.diagram">
+      <DependentUpon>WebshopModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

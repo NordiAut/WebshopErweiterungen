@@ -57,7 +57,7 @@
     <Property Name="PriceTotal" Type="Decimal" Precision="19" Scale="4" />
     <Property Name="DateOrdered" Type="DateTime" Precision="0" />
     <Property Name="Street" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="Zip" Type="String" />
+    <Property Name="Zip" Type="Int32" />
     <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
@@ -139,7 +139,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="webshopEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="webshopEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Category" EntityType="Self.Category" />
     <EntitySet Name="Customer" EntityType="Self.Customer" />
     <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" />

@@ -31,7 +31,5 @@ namespace webshop
         public virtual DbSet<OrderLine> OrderLine { get; set; }
         public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<Product> Product { get; set; }
-
-        public System.Data.Entity.DbSet<webshop.ViewModel.OrderLineProductViewModel> OrderLineProductViewModels { get; set; }
     }
 }

@@ -84,14 +84,14 @@ namespace webshop.Controllers
             checkoutObject.PriceTotal = total;
             checkoutObject.Email = customer.Email;
             checkoutObject.Street = order.Street;
-            checkoutObject.Zip = order.Zip;
+            checkoutObject.Zip = order.Zip.ToString();
             checkoutObject.City = order.City;
             checkoutObject.FirstName = order.FirstName;
             checkoutObject.LastName = order.LastName;
 
             //fill delivery-data 
             checkoutObject.DeliveryStreet = order.Street;
-            checkoutObject.DeliveryZip = order.Zip;
+            checkoutObject.DeliveryZip = order.Zip.ToString();
             checkoutObject.DeliveryCity = order.City;
             checkoutObject.DeliveryFirstName = order.FirstName;
             checkoutObject.DeliveryLastName = order.LastName;

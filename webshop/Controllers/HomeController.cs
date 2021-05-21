@@ -63,7 +63,7 @@ namespace webshop.Controllers
                     newOrder.City= newCustomer.City;
                     if (newCustomer.Zip != null)
                     {
-                        newOrder.Zip = newCustomer.Zip.ToString();
+                        newOrder.Zip = newCustomer.Zip;
                     }
                     newOrder.FirstName = newCustomer.FirstName;
                     newOrder.LastName = newCustomer.LastName;
