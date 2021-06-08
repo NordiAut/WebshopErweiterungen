@@ -17,7 +17,14 @@ namespace webshop.Controllers
         public ActionResult Index()
         {
             ViewBag.error = "Email already exists";
-            return View();
+            return RedirectToAction("Landing");
+        }
+
+        public ActionResult Landing()
+        {
+            var product = db.Product.Take(3);
+            return View(product.ToList());
+
         }
 
         // Register
@@ -150,16 +157,16 @@ namespace webshop.Controllers
 
 
 
-        public ActionResult About()
+        public ActionResult AGB()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Impressum()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Contact Data";
 
             return View();
         }

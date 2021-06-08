@@ -1,0 +1,53 @@
+﻿@model IEnumerable<webshop.Product>
+
+@{
+    ViewBag.Title = "Landing";
+}
+
+<hr />
+<div style="border-style: solid; border-width: 1px;">
+    <img src="/Images/Electronic4You.png" width="100%" height="400">
+
+</div>
+<hr />
+
+<div class="col-lg-12">
+
+    @foreach (var item in Model)
+    {
+
+
+        <div class="col-md-4" style="border: black;border-style: solid;border-width: 1px; text-align: center">
+
+            @Html.DisplayFor(modelItem => item.Product_Name)
+
+            <div>
+                <img src="@Url.Content(item.ImagePath)" width="100" height="100">
+            </div>
+            Price: @Html.DisplayFor(modelItem => item.NetUnitPrice) Euro
+            @Html.ActionLink("Details", "Details", "Products", new { id = item.Product_ID }, null)
+
+        </div>
+    }
+</div>
+<div style="text-align: center">
+    -
+
+</div>
+<div>
+    <hr />
+    <div class="col-md-6">
+        @Html.ActionLink("Impressum", "Impressum", "Home", null, new { @class = "btn btn-primary btn-large" })
+    </div>
+
+    <div class="col-md-6" style="text-align: right">
+        @Html.ActionLink("AGB", "AGB", "Home", null, new { @class = "btn btn-primary btn-large" })
+    </div>
+   
+
+
+
+</div>
+
+
+

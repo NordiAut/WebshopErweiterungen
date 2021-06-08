@@ -1,4 +1,5 @@
-﻿@model webshop.ViewModel.FilterAndSearchViewModel
+﻿@using System.Activities.Statements
+@model webshop.ViewModel.FilterAndSearchViewModel
 
 @{
     ViewBag.Title = "Product";
@@ -50,9 +51,8 @@
                 @Html.DisplayFor(modelItem => item.NetUnitPrice) €
             </td>
 
-
             <td>
-
+                
                 @Html.ActionLink("Add", "Add", new { id = item.Product_ID }) |
 
                 @Html.ActionLink("Details", "Details", new { id = item.Product_ID })

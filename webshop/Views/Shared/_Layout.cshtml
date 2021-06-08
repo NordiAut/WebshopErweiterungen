@@ -17,29 +17,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Electronic4You", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Electronic4You", "Landing", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Home", "Landing", "Home")</li>
 
                     <li>@Html.ActionLink("Products", "Product", "Products")</li>
-                    <li>@Html.ActionLink("OrderLines", "Index", "OrderLines")</li>
+                    @*<li>@Html.ActionLink("OrderLines", "Index", "OrderLines")</li>*@
 
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
 
                     @if (Session["FullName"] == null)
                     {
-                    <li>
-                        
-                        @Html.ActionLink("Shopping Cart", "Login", "Home")
-                    </li>
+                        <li style="margin-left: 620px">
+
+                            @Html.ActionLink("Shopping Cart", "Login", "Home")
+                        </li>
                     }
 
                     @if (Session["FullName"] != null)
                     {
-                        <li>
+                        <li style="margin-left: 620px">
                             @Html.ActionLink("Shopping Cart", "ShoppingCart", "Products")
                         </li>
                     }
@@ -79,7 +79,10 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Electronic4You</p>
+            <div style="text-align: center">
+                <p>&copy; @DateTime.Now.Year - Electronic4You</p>
+            </div>
+            
         </footer>
     </div>
 
