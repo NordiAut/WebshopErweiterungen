@@ -139,7 +139,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="webshopEntities1" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="webshopEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Category" EntityType="Self.Category" />
     <EntitySet Name="Customer" EntityType="Self.Customer" />
     <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" />
