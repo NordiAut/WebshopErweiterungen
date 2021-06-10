@@ -175,7 +175,7 @@ namespace webshop.Controllers
                 SmtpClient smtp = new SmtpClient();
                 smtp.Host = "smtp.office365.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "Oliverbbrz");
+                NetworkCredential networkCredential = new NetworkCredential(from, pw);
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
                 smtp.Port = 587;
@@ -230,6 +230,6 @@ namespace webshop.Controllers
             return View(orderObject);
         }
 
-
+        private static string pw = "Oliverbbrz";
     }
 }
