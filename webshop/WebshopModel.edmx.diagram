@@ -6,10 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ca27c30b77434d60ac9c5df946377c64" Name="Diagram1">
         <EntityTypeShape EntityType="webshopModel.Category" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="webshopModel.Customer" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="webshopModel.Customer" Width="1.5" PointX="8" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="webshopModel.Manufacturer" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="webshopModel.OrderLine" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="webshopModel.OrderTable" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="webshopModel.OrderTable" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
         <EntityTypeShape EntityType="webshopModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="webshopModel.FK_P_CAID" ManuallyRouted="false" />
         <AssociationConnector Association="webshopModel.FK_P_PID" ManuallyRouted="false" />

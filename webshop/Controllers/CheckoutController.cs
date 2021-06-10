@@ -153,12 +153,14 @@ namespace webshop.Controllers
             };
             byte[] byteArray = invoicePDF.BuildPdf(ControllerContext);
 
-            var fileStream = new FileStream("B:/Applikationsentwickler/invoice.pdf", FileMode.Create, FileAccess.Write);
-            fileStream.Write(byteArray, 0, byteArray.Length);
-            fileStream.Close();
+            var memStream = new MemoryStream(byteArray);
+
+            //var fileStream = new FileStream("B:/Applikationsentwickler/invoice.pdf", FileMode.Create, FileAccess.Write);
+            //fileStream.Write(byteArray, 0, byteArray.Length);
+            //fileStream.Close();
 
             //TODO Email
-            string from = "oliver.rotter2@gmail.com"; 
+            string from = "itn132163@qualifizierung.at"; 
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -168,15 +170,16 @@ namespace webshop.Controllers
                 //mail.Attachments.Add(new Attachment(new MemoryStream(byteArray), "Invoice"));
                 //mail.Attachments.Add(attPDF);
 
-                mail.Attachments.Add(new Attachment(@"B:/Applikationsentwickler/invoice.pdf"));
+                mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
+                smtp.Host = "smtp.office365.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "Nordland12!");
+                NetworkCredential networkCredential = new NetworkCredential(from, "Oliverbbrz");
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
                 smtp.Port = 587;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mail);
                 
             }
