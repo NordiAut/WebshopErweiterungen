@@ -120,6 +120,11 @@ namespace webshop.Controllers
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
             tempOrder.Payment = orderobject.Payment;
 
+            if (tempOrder.DeliveryCity == null || tempOrder.DeliveryFirstName == null || tempOrder.DeliveryLastName == null || tempOrder.DeliveryZip.Length <4 || tempOrder.DeliveryZip.Length > 4)
+            {
+                return View(tempOrder);
+            }
+
             var orderObject = new OrderCustomerOrderLine();
             orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderobject.Order_Id).FirstOrDefault();
             if (orderObject.Payment == null)

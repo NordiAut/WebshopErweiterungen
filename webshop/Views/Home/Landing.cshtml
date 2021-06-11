@@ -24,7 +24,7 @@
             <div>
                 <img src="@Url.Content(item.ImagePath)" width="100" height="100">
             </div>
-            Price: @Html.DisplayFor(modelItem => item.NetUnitPrice) Euro
+            Price: @Html.DisplayFor(modelItem => item.NetUnitPrice) €
             @Html.ActionLink("Details", "Details", "Products", new { id = item.Product_ID }, null)
 
         </div>

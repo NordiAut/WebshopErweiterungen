@@ -65,10 +65,10 @@
 
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].NetUnitPrice)
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].NetUnitPrice) €
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].priceLine)
+                        @Html.DisplayFor(modelItem => Model.OrderLineProductList[i].priceLine) €
                     </td>
                     <td>
                     </td>
@@ -92,7 +92,7 @@
                     <p style="font-size: medium"> Total price:</p>
                 </td>
                 <td>
-                    @ViewBag.Total
+                    @ViewBag.Total €
                 </td>
                 <td>
 
@@ -171,23 +171,27 @@
                         @Html.DisplayNameFor(model => model.FirstName)
 
                         @Html.EditorFor(model => model.DeliveryFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryFirstName, "", new { @class = "text-danger" })
 
                     </div>
                     <div>
                         @Html.DisplayNameFor(model => model.LastName)
 
                         @Html.EditorFor(model => model.DeliveryLastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryLastName, "", new { @class = "text-danger" })
                     </div>
 
                     <div>
                         @Html.DisplayNameFor(model => model.Street)
 
                         @Html.EditorFor(model => model.DeliveryStreet, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryStreet, "", new { @class = "text-danger" })
                     </div>
                     <div>
                         @Html.DisplayNameFor(model => model.DeliveryZip)
 
                         @Html.EditorFor(model => model.DeliveryZip, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryZip, "", new { @class = "text-danger" })
                     </div>
                     <div>
                         <br/>

@@ -16,6 +16,7 @@ namespace webshop.ViewModel
         [DisplayName("Amount")] 
         [RegularExpression("([1-9]|10)", ErrorMessage = "Count must be a natural number")]
 
+        [Required]
         public Nullable<int> Amount { get; set; }
 
         [DisplayName("Price")]
