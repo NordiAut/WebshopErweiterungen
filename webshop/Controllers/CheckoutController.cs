@@ -120,15 +120,8 @@ namespace webshop.Controllers
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
             tempOrder.Payment = orderobject.Payment;
 
-
-            return View(tempOrder);
-        }
-
-        public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
-        {
-            
             var orderObject = new OrderCustomerOrderLine();
-            orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
+            orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderobject.Order_Id).FirstOrDefault();
             if (orderObject.Payment == null)
             {
                 return RedirectToAction("Invoice", orderObject);
@@ -138,7 +131,10 @@ namespace webshop.Controllers
                 return RedirectToAction("Invoice", orderObject);
             }
             return RedirectToAction("Checkout");
+
+            return View(tempOrder);
         }
+
 
         public ActionResult Invoice(OrderCustomerOrderLine orderObject)
         {
@@ -230,6 +226,26 @@ namespace webshop.Controllers
             return View(orderObject);
         }
 
+
+
+        //[HttpPost]
+        //public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
+        //{
+
+        //    var orderObject = new OrderCustomerOrderLine();
+        //    orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
+        //    if (orderObject.Payment == null)
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    else if (orderobject.Payment == "invoice")
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    return RedirectToAction("Checkout");
+        //}
+
         private static string pw = "Oliverbbrz";
+
     }
 }
