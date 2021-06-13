@@ -72,7 +72,7 @@
                     </td>
                     <td>
                     </td>
-                    @Html.ValidationMessageFor(Modelitem => Model.OrderLineProductList[i].Amount, "", new { @class = "text-danger" })
+                   
 
                 </tr>
             }
@@ -163,41 +163,47 @@
 
             <h3>Delivery adress</h3>
            
-                <div class="form-horizontal">
+            <div class="form-horizontal">
 
 
-                    <div>
+                <div>
 
-                        @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.FirstName)
 
-                        @Html.EditorFor(model => model.DeliveryFirstName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryFirstName, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.DeliveryFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Modelitem => Model.DeliveryFirstName, "", new { @class = "text-danger" })
 
-                    </div>
-                    <div>
-                        @Html.DisplayNameFor(model => model.LastName)
-
-                        @Html.EditorFor(model => model.DeliveryLastName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryLastName, "", new { @class = "text-danger" })
-                    </div>
-
-                    <div>
-                        @Html.DisplayNameFor(model => model.Street)
-
-                        @Html.EditorFor(model => model.DeliveryStreet, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryStreet, "", new { @class = "text-danger" })
-                    </div>
-                    <div>
-                        @Html.DisplayNameFor(model => model.DeliveryZip)
-
-                        @Html.EditorFor(model => model.DeliveryZip, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(Modelitem => Model.DeliveryZip, "", new { @class = "text-danger" })
-                    </div>
-                    <div>
-                        <br/>
-                        
-                    </div>
                 </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.LastName)
+
+                    @Html.EditorFor(model => model.DeliveryLastName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Modelitem => Model.DeliveryLastName, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(model => model.Street)
+
+                    @Html.EditorFor(model => model.DeliveryStreet, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Modelitem => Model.DeliveryStreet, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.City)
+
+                    @Html.EditorFor(model => model.DeliveryCity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Modelitem => Model.DeliveryCity, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    @Html.DisplayNameFor(model => model.DeliveryZip)
+
+                    @Html.EditorFor(model => model.DeliveryZip, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(Modelitem => Model.DeliveryZip, "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    <br />
+
+                </div>
+            </div>
 
             
            

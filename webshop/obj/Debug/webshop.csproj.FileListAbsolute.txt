@@ -161,7 +161,6 @@ B:\Applikationsentwickler\webshopProject\webshop\webshop\bin\System.Web.WebPages
 B:\Applikationsentwickler\webshopProject\webshop\webshop\bin\Newtonsoft.Json.xml
 B:\Applikationsentwickler\webshopProject\webshop\webshop\bin\Antlr3.Runtime.pdb
 B:\Applikationsentwickler\webshopProject\webshop\webshop\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.csprojAssemblyReference.cache
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.csproj.CoreCompileInputs.cache
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.csproj.CopyComplete
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.dll
