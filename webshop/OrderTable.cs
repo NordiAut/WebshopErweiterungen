@@ -21,11 +21,11 @@ namespace webshop
         }
     
         public int Order_ID { get; set; }
-        public Nullable<int> Customer_ID { get; set; }
-        public Nullable<decimal> PriceTotal { get; set; }
-        public Nullable<System.DateTime> DateOrdered { get; set; }
+        public int Customer_ID { get; set; }
+        public decimal PriceTotal { get; set; }
+        public System.DateTime DateOrdered { get; set; }
         public string Street { get; set; }
-        public Nullable<int> Zip { get; set; }
+        public int Zip { get; set; }
         public string City { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

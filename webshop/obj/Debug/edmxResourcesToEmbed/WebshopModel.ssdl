@@ -6,7 +6,7 @@
     </Key>
     <Property Name="Category_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Category_Name" Type="nvarchar" MaxLength="30" />
-    <Property Name="TaxRate" Type="float" />
+    <Property Name="TaxRate" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Customer">
     <Key>
@@ -18,7 +18,7 @@
     <Property Name="LastName" Type="nvarchar" MaxLength="30" />
     <Property Name="Email" Type="nvarchar" MaxLength="50" />
     <Property Name="Street" Type="nvarchar" MaxLength="60" />
-    <Property Name="Zip" Type="int" />
+    <Property Name="Zip" Type="int" Nullable="false" />
     <Property Name="City" Type="nvarchar" MaxLength="50" />
     <Property Name="PwHash" Type="binary" MaxLength="32" />
     <Property Name="Salt" Type="binary" MaxLength="32" />
@@ -37,22 +37,22 @@
       <PropertyRef Name="OrderLine_ID" />
     </Key>
     <Property Name="OrderLine_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Order_ID" Type="int" />
-    <Property Name="Product_ID" Type="int" />
-    <Property Name="Amount" Type="int" />
-    <Property Name="NetUnitPrice" Type="money" />
-    <Property Name="TaxRate" Type="float" />
+    <Property Name="Order_ID" Type="int" Nullable="false" />
+    <Property Name="Product_ID" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="int" Nullable="false" />
+    <Property Name="NetUnitPrice" Type="money" Nullable="false" />
+    <Property Name="TaxRate" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>
       <PropertyRef Name="Order_ID" />
     </Key>
     <Property Name="Order_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Customer_ID" Type="int" />
-    <Property Name="PriceTotal" Type="money" />
-    <Property Name="DateOrdered" Type="date" />
+    <Property Name="Customer_ID" Type="int" Nullable="false" />
+    <Property Name="PriceTotal" Type="money" Nullable="false" />
+    <Property Name="DateOrdered" Type="date" Nullable="false" />
     <Property Name="Street" Type="nvarchar" MaxLength="30" />
-    <Property Name="Zip" Type="int" />
+    <Property Name="Zip" Type="int" Nullable="false" />
     <Property Name="City" Type="nvarchar" MaxLength="30" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
     <Property Name="LastName" Type="nvarchar" MaxLength="30" />
@@ -62,15 +62,15 @@
       <PropertyRef Name="Product_ID" />
     </Key>
     <Property Name="Product_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Manufacturer_ID" Type="int" />
-    <Property Name="Category_ID" Type="int" />
+    <Property Name="Manufacturer_ID" Type="int" Nullable="false" />
+    <Property Name="Category_ID" Type="int" Nullable="false" />
     <Property Name="Product_Name" Type="nvarchar" MaxLength="100" />
-    <Property Name="NetUnitPrice" Type="money" />
+    <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
     <Property Name="Description" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_P_CAID">
-    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Category">
@@ -82,7 +82,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_OOID">
-    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="0..1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="1" />
     <End Role="OrderLine" Type="Self.OrderLine" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderTable">
@@ -94,7 +94,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_PID">
-    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
     <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Customer">
@@ -106,7 +106,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_PRID">
-    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="OrderLine" Type="Self.OrderLine" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Product">
@@ -118,7 +118,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_SCID">
-    <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+    <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Manufacturer">

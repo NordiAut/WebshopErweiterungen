@@ -26,7 +26,7 @@ namespace webshop
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Street { get; set; }
-        public Nullable<int> Zip { get; set; }
+        public int Zip { get; set; }
         public string City { get; set; }
         public byte[] PwHash { get; set; }
         public byte[] Salt { get; set; }

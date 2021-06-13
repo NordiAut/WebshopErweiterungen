@@ -6,7 +6,7 @@
     </Key>
     <Property Name="Category_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Category_Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="TaxRate" Type="Double" />
+    <Property Name="TaxRate" Type="Double" Nullable="false" />
     <NavigationProperty Name="Product" Relationship="Self.FK_P_CAID" FromRole="Category" ToRole="Product" />
   </EntityType>
   <EntityType Name="Customer">
@@ -19,7 +19,7 @@
     <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Street" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
-    <Property Name="Zip" Type="Int32" />
+    <Property Name="Zip" Type="Int32" Nullable="false" />
     <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PwHash" Type="Binary" MaxLength="32" FixedLength="true" />
     <Property Name="Salt" Type="Binary" MaxLength="32" FixedLength="true" />
@@ -40,11 +40,11 @@
       <PropertyRef Name="OrderLine_ID" />
     </Key>
     <Property Name="OrderLine_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Order_ID" Type="Int32" />
-    <Property Name="Product_ID" Type="Int32" />
-    <Property Name="Amount" Type="Int32" />
-    <Property Name="NetUnitPrice" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="TaxRate" Type="Double" />
+    <Property Name="Order_ID" Type="Int32" Nullable="false" />
+    <Property Name="Product_ID" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Int32" Nullable="false" />
+    <Property Name="NetUnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="TaxRate" Type="Double" Nullable="false" />
     <NavigationProperty Name="OrderTable" Relationship="Self.FK_P_OOID" FromRole="OrderLine" ToRole="OrderTable" />
     <NavigationProperty Name="Product" Relationship="Self.FK_P_PRID" FromRole="OrderLine" ToRole="Product" />
   </EntityType>
@@ -53,11 +53,11 @@
       <PropertyRef Name="Order_ID" />
     </Key>
     <Property Name="Order_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Customer_ID" Type="Int32" />
-    <Property Name="PriceTotal" Type="Decimal" Precision="19" Scale="4" />
-    <Property Name="DateOrdered" Type="DateTime" Precision="0" />
+    <Property Name="Customer_ID" Type="Int32" Nullable="false" />
+    <Property Name="PriceTotal" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="DateOrdered" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Street" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-    <Property Name="Zip" Type="Int32" />
+    <Property Name="Zip" Type="Int32" Nullable="false" />
     <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
@@ -69,10 +69,10 @@
       <PropertyRef Name="Product_ID" />
     </Key>
     <Property Name="Product_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Manufacturer_ID" Type="Int32" />
-    <Property Name="Category_ID" Type="Int32" />
+    <Property Name="Manufacturer_ID" Type="Int32" Nullable="false" />
+    <Property Name="Category_ID" Type="Int32" Nullable="false" />
     <Property Name="Product_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-    <Property Name="NetUnitPrice" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="NetUnitPrice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
     <Property Name="ImagePath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Category" Relationship="Self.FK_P_CAID" FromRole="Product" ToRole="Category" />
@@ -80,7 +80,7 @@
     <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_PRID" FromRole="Product" ToRole="OrderLine" />
   </EntityType>
   <Association Name="FK_P_CAID">
-    <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Category">
@@ -92,7 +92,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_PID">
-    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
     <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Customer">
@@ -104,7 +104,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_SCID">
-    <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+    <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Manufacturer">
@@ -116,7 +116,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_OOID">
-    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="0..1" />
+    <End Role="OrderTable" Type="Self.OrderTable" Multiplicity="1" />
     <End Role="OrderLine" Type="Self.OrderLine" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="OrderTable">
@@ -128,7 +128,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_P_PRID">
-    <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
     <End Role="OrderLine" Type="Self.OrderLine" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Product">

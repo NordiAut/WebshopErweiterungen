@@ -225,6 +225,7 @@
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="App_Browsers\qt.browser" />
     <Content Include="webshopModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>webshopModel.edmx</DependentUpon>
@@ -235,7 +236,6 @@
       <DependentUpon>webshopModel.edmx</DependentUpon>
       <LastGenOutput>webshopModel.cs</LastGenOutput>
     </Content>
-    <Content Include="App_Browsers\qt.browser" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -256,13 +256,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <EntityDeploy Include="webshopModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>webshopModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="webshopModel.edmx.diagram">
-      <DependentUpon>webshopModel.edmx</DependentUpon>
-    </Content>
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\AGB.cshtml" />
@@ -293,6 +286,13 @@
     <Content Include="Views\Products\OrderLineIndexVM.cshtml" />
     <Content Include="Views\Products\Product.cshtml" />
     <Content Include="Views\Products\ShoppingCart.cshtml" />
+    <EntityDeploy Include="webshopModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>webshopModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="webshopModel.edmx.diagram">
+      <DependentUpon>webshopModel.edmx</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

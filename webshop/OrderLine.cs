@@ -15,11 +15,11 @@ namespace webshop
     public partial class OrderLine
     {
         public int OrderLine_ID { get; set; }
-        public Nullable<int> Order_ID { get; set; }
-        public Nullable<int> Product_ID { get; set; }
-        public Nullable<int> Amount { get; set; }
-        public Nullable<decimal> NetUnitPrice { get; set; }
-        public Nullable<double> TaxRate { get; set; }
+        public int Order_ID { get; set; }
+        public int Product_ID { get; set; }
+        public int Amount { get; set; }
+        public decimal NetUnitPrice { get; set; }
+        public double TaxRate { get; set; }
     
         public virtual OrderTable OrderTable { get; set; }
         public virtual Product Product { get; set; }

@@ -21,10 +21,10 @@ namespace webshop
         }
     
         public int Product_ID { get; set; }
-        public Nullable<int> Manufacturer_ID { get; set; }
-        public Nullable<int> Category_ID { get; set; }
+        public int Manufacturer_ID { get; set; }
+        public int Category_ID { get; set; }
         public string Product_Name { get; set; }
-        public Nullable<decimal> NetUnitPrice { get; set; }
+        public decimal NetUnitPrice { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
     

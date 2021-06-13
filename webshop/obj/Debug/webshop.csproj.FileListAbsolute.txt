@@ -165,3 +165,4 @@ B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.cspro
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.csproj.CopyComplete
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.dll
 B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.pdb
+B:\Applikationsentwickler\webshopProject\webshop\webshop\obj\Debug\webshop.csprojAssemblyReference.cache

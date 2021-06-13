@@ -327,7 +327,7 @@ namespace webshop.Controllers
 
         //function to add multiple items to the shopping cart
         [HttpPost]
-        public ActionResult Details(int? id, int? number)
+        public ActionResult Details(int id, int number)
         {
             // When not logged in, redirect to login
             if (Session["idUser"] == null)

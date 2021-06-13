@@ -9,11 +9,11 @@ namespace webshop.ViewModel
     public class OrderCustomerOrderLine
     {
         
-        public Nullable<int> Order_Id { get; set; }
+        public int Order_Id { get; set; }
 
-        public Nullable<int> Customer_Id { get; set; }
-        public Nullable<decimal> PriceTotal { get; set; }
-        public Nullable<System.DateTime> DateOrdered { get; set; }
+        public int Customer_Id { get; set; }
+        public decimal PriceTotal { get; set; }
+        public System.DateTime DateOrdered { get; set; }
 
         public string Email { get; set; }
         public string Street { get; set; }

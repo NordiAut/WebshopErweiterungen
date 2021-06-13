@@ -11,20 +11,20 @@ namespace webshop.ViewModel
     {
         public int ID { get; set; }
 
-        public Nullable<int> Order_Id { get; set; }
+        public int Order_Id { get; set; }
 
         [DisplayName("Amount")] 
         [RegularExpression("([1-9]|10)", ErrorMessage = "Count must be a natural number")]
 
         [Required]
-        public Nullable<int> Amount { get; set; }
+        public int Amount { get; set; }
 
         [DisplayName("Price")]
-        public Nullable<decimal> NetUnitPrice { get; set; }
-        public Nullable<double> TaxRate { get; set; }
+        public decimal NetUnitPrice { get; set; }
+        public double TaxRate { get; set; }
 
         [DisplayName("ProductNr")]
-        public Nullable<int> Product_ID { get; set; }
+        public int Product_ID { get; set; }
 
         [DisplayName("Product")]
         public string Product_Name { get; set; }

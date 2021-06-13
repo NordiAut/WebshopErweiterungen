@@ -1,9 +1,14 @@
+
+/* webshop V4 */ 
+
 use webshop;
-/* webshop */ 
+
+
+
 
 /* Manufacturer */ 
 CREATE TABLE Manufacturer(
-Manufacturer_ID int IDENTITY, 
+Manufacturer_ID int IDENTITY not null, 
 Manufacturer_Name nvarchar(60),
 FirstName nvarchar(30),
 LastName nvarchar(30),
@@ -12,13 +17,13 @@ Constraint PK_MC_MCID Primary Key (Manufacturer_ID));
 
 /* Customer */ 
 CREATE TABLE Customer(
-Customer_ID int IDENTITY, 
+Customer_ID int IDENTITY not null, 
 Title nvarchar(30),
 FirstName nvarchar(30),
 LastName nvarchar(30),
 Email nvarchar(50),
 Street nvarchar(60),
-Zip int,
+Zip int not null,
 City nvarchar(50),
 PwHash binary(32),
 Salt binary(32),
@@ -27,19 +32,21 @@ Constraint PK_U_UID Primary Key (Customer_ID));
 
 /* Category */ 
 CREATE TABLE Category(
-Category_ID int IDENTITY,
+Category_ID int IDENTITY not null,
 Category_Name nvarchar(30),
-TaxRate float,
+TaxRate float not null,
 Constraint PK_SC_SCID Primary Key (Category_ID));
+
+
 
 
 /* Product */ 
 CREATE TABLE Product(
-Product_ID int IDENTITY, 
-Manufacturer_ID int, 
-Category_ID int, 
+Product_ID int IDENTITY not null, 
+Manufacturer_ID int not null, 
+Category_ID int not null, 
 Product_Name nvarchar(100),
-NetUnitPrice money,
+NetUnitPrice money not null,
 ImagePath nvarchar(50),
 Description nvarchar(50),
 Constraint PK_P_PID Primary Key (Product_ID),
@@ -49,12 +56,12 @@ CONSTRAINT FK_P_CAID FOREIGN KEY (Category_ID) REFERENCES Category (Category_ID)
 
 /* Order*/ 
 CREATE TABLE OrderTable(
-Order_ID int IDENTITY, 
-Customer_ID int, 
-PriceTotal money,
-DateOrdered Date,
+Order_ID int IDENTITY not null, 
+Customer_ID int not null, 
+PriceTotal money not null,
+DateOrdered Date not null,
 Street nvarchar(30),
-Zip int,
+Zip int not null,
 City nvarchar(30),
 FirstName nvarchar(30),
 LastName nvarchar(30),
@@ -64,12 +71,12 @@ CONSTRAINT FK_P_PID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID))
 
 /* OrderLine */ 
 CREATE TABLE OrderLine(
-OrderLine_ID int IDENTITY, 
-Order_ID int, 
-Product_ID int, 
-Amount int,
-NetUnitPrice money,
-TaxRate float,
+OrderLine_ID int IDENTITY not null, 
+Order_ID int not null, 
+Product_ID int not null, 
+Amount int not null,
+NetUnitPrice money not null,
+TaxRate float not null,
 Constraint PK_P_OLID Primary Key (OrderLine_ID),
 CONSTRAINT FK_P_OOID FOREIGN KEY (Order_ID) REFERENCES OrderTable (Order_ID),
 CONSTRAINT FK_P_PRID FOREIGN KEY (Product_ID) REFERENCES Product (Product_ID));
@@ -117,7 +124,16 @@ SET IDENTITY_INSERT Category Off;
 /* Samsung */ 
 
 INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
-Values('1','2','256 GB Samsung 870 EVO SSD','49.99','~/Images/Samsung870EVO.jpg'),
+Values('1','2','256 GB Samsung 870 EVO SSD','49.99','~/Images/Samsung870EVO.jpg');
+
+INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
+Values('9','4','Razer Gaming Notebook Kraken 2000','1899.99','~/Images/RazerNotebook.jpg');
+
+INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
+Values('4','5','Apple Ipad Pro 2020 WIFI 256 GB +','999.99','~/Images/AppleIpad.jpg');
+
+INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
+Values
 ('1','2','512 GB Samsung 870 EVO SSD','79.99','~/Images/Samsung870EVO.jpg'),
 ('1','2','1 TB Samsung 870 EVO SSD','99.99','~/Images/Samsung870EVO.jpg'),
 ('1','2','2 TB Samsung 870 EVO SSD','149.99','~/Images/Samsung870EVO.jpg'),
@@ -163,6 +179,8 @@ Values('3','4','Toshiba N4256 Notebook','499.99','~/Images/ToshibaLapttop.jpg'),
 ('3','2','8 TB Toshiba X9453 Super HDD','199.99','~/Images/ToshibaHDD.jpg');
 
 /* Apple */ 
+
+
 
 INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
 Values('4','4','Apple Macbook 2019 ','1299.99','~/Images/ToshibaLapttop.jpg'),
@@ -247,21 +265,21 @@ Values('8','8','Sony Playstation 4 256 GB','229.99','~/Images/playstation4.jpg')
 /* Nintendo */ 
 
 INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
-Values('8','8','Nintendo Switch Standard version','299.99','~/Images/NintendoSwtich.jpg'),
-('8','8','Nintendo Switch Deluxe Edition','399.99','~/Images/NintendoSwtich.jpg'),
-('8','6','Nintendo Switch Standard version Refurbished','199.99','~/Images/NintendoSwtich.jpg'),
-('8','6','Nintendo Switch Deluxe Edition Refurbished','299.99','~/Images/NintendoSwtich.jpg'),
-('8','6','Nintendo Super Mario 3D World digital Version','49.99','~/Images/nintendoMario.jpg'),
-('8','6','Nintendo Super Mario 3D World Hardcase Version','69.99','~/Images/nintendoMario.jpg'),
-('8','6','Nintendo Controller','59.99','~/Images/nintendoSwitchController.jpg'),
-('8','6','Nintendo Controller Dual Pack','89.99','~/Images/nintendoSwitchController.jpg');
+Values('9','8','Nintendo Switch Standard version','299.99','~/Images/NintendoSwtich.jpg'),
+('9','8','Nintendo Switch Deluxe Edition','399.99','~/Images/NintendoSwtich.jpg'),
+('9','6','Nintendo Switch Standard version Refurbished','199.99','~/Images/NintendoSwtich.jpg'),
+('9','6','Nintendo Switch Deluxe Edition Refurbished','299.99','~/Images/NintendoSwtich.jpg'),
+('9','6','Nintendo Super Mario 3D World digital Version','49.99','~/Images/nintendoMario.jpg'),
+('9','6','Nintendo Super Mario 3D World Hardcase Version','69.99','~/Images/nintendoMario.jpg'),
+('9','6','Nintendo Controller','59.99','~/Images/nintendoSwitchController.jpg'),
+('9','6','Nintendo Controller Dual Pack','89.99','~/Images/nintendoSwitchController.jpg');
 
 
 /* Razer */ 
 
 INSERT INTO  Product(Manufacturer_ID,Category_ID,Product_Name,NetUnitPrice, ImagePath)
-Values('9','4','Razer Gaming Notebook Kraken 2000','1899.99','~/Images/RazerNotebook.jpg'),
-('9','4','Razer Gaming Notebook Kraken 3000','2299.99','~/Images/RazerNotebook.jpg'),
-('9','4','Razer Gaming Notebook Kraken 4000','3299.99','~/Images/RazerNotebook.jpg'),
-('9','4','Razer Gaming Mouse','59.99','~/Images/RazerNotebook.jpg'),
-('9','4','Razer Gaming Notebook Kraken 4000','3299.99','~/Images/RazerNotebook.jpg');
+Values
+('10','4','Razer Gaming Notebook Kraken 3000','2299.99','~/Images/RazerNotebook.jpg'),
+('10','4','Razer Gaming Notebook Kraken 4000','3299.99','~/Images/RazerNotebook.jpg'),
+('10','4','Razer Gaming Mouse','59.99','~/Images/RazerNotebook.jpg'),
+('10','4','Razer Gaming Notebook Kraken 4000','3299.99','~/Images/RazerNotebook.jpg');
