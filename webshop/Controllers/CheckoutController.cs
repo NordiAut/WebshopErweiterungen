@@ -120,7 +120,7 @@ namespace webshop.Controllers
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
             tempOrder.Payment = orderobject.Payment;
 
-            if (tempOrder.DeliveryCity == null || tempOrder.DeliveryFirstName == null || tempOrder.DeliveryLastName == null || tempOrder.DeliveryZip.Length <4 || tempOrder.DeliveryZip.Length > 4)
+            if (tempOrder.DeliveryCity == null || tempOrder.DeliveryFirstName == null || tempOrder.DeliveryLastName == null || tempOrder.DeliveryZip.Length <4 || tempOrder.DeliveryZip.Length > 4 || tempOrder.DeliveryStreet == null)
             {
                 return View(tempOrder);
             }
