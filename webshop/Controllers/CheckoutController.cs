@@ -73,9 +73,13 @@ namespace webshop.Controllers
                 total += temp_line.priceLine ?? default;
             }
 
+            var nettoTotal = total;
+            var bruttoTotal = nettoTotal * 1.2M;
+            var UST = bruttoTotal- nettoTotal;
+            ViewBag.UST = Math.Round(UST, 2);
             //Total viewbag
-            total = Math.Round(total, 2);
-            ViewBag.Total = total;
+            bruttoTotal = Math.Round(bruttoTotal, 2);
+            ViewBag.Total = bruttoTotal;
 
             
             //Fill checkout object
@@ -221,9 +225,14 @@ namespace webshop.Controllers
                 total += temp_line.priceLine ?? default;
             }
 
+            // Netto and Brutto
+            var nettoTotal = total;
+            var bruttoTotal = nettoTotal * 1.2M;
+            var UST = bruttoTotal - nettoTotal;
+            ViewBag.UST = Math.Round(UST, 2);
             //Total viewbag
-            total = Math.Round(total, 2);
-            ViewBag.Total = total;
+            bruttoTotal = Math.Round(bruttoTotal, 2);
+            ViewBag.Total = bruttoTotal;
 
             //add cartlist to checkoutObject
             orderObject.OrderLineProductList = cartlist;

@@ -102,9 +102,12 @@ namespace webshop.Controllers
                 }
             }
 
+            var productlist = product.ToList();
 
-            // vm.Data = data.ToList();
-            vm.Data = product.ToList();
+            Services.Helper.Shuffle(productlist);
+
+            // vm.Data = list of product
+            vm.Data = productlist;
             return View(vm);
         }
 
@@ -163,10 +166,13 @@ namespace webshop.Controllers
                total += temp_line.priceLine ?? default;
             }
 
-            
-
-            total = Math.Round(total, 2);
-            ViewBag.Total = total;
+            var nettoTotal = total;
+            var bruttoTotal = nettoTotal * 1.2M;
+            var UST = bruttoTotal - nettoTotal;
+            ViewBag.UST = Math.Round(UST, 2);
+            //Total viewbag
+            bruttoTotal = Math.Round(bruttoTotal, 2);
+            ViewBag.Total = bruttoTotal;
 
 
             return View(showList);
