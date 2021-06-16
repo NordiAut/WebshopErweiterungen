@@ -34,7 +34,12 @@ namespace webshop.Controllers
             // get customer
             var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
             // get order from customer
-            var order= db.OrderTable.Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+            // get orderTable from customer
+            var order = db.OrderTable
+                .OrderByDescending(o => o.Order_ID)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
             // get list of orderlines from order from customer
             var orderId = order.Order_ID;
             var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
@@ -154,7 +159,9 @@ namespace webshop.Controllers
             // get customer
             var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
             // get order from customer
-            var order = db.OrderTable.Where(x => x.Customer_ID == customerId).FirstOrDefault();
+            var order = db.OrderTable
+                .OrderByDescending(o => o.Order_ID)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
             // get list of orderlines from order from customer
             var orderId = order.Order_ID;
             var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
@@ -269,6 +276,8 @@ namespace webshop.Controllers
                 
             }
 
+            Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
+
             //return invoice;
             return View(checkoutObject);
         }
@@ -322,22 +331,6 @@ namespace webshop.Controllers
 
 
 
-        //[HttpPost]
-        //public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
-        //{
-
-        //    var orderObject = new OrderCustomerOrderLine();
-        //    orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
-        //    if (orderObject.Payment == null)
-        //    {
-        //        return RedirectToAction("Invoice", orderObject);
-        //    }
-        //    else if (orderobject.Payment == "invoice")
-        //    {
-        //        return RedirectToAction("Invoice", orderObject);
-        //    }
-        //    return RedirectToAction("Checkout");
-        //}
 
         private static string pw = "Oliverbbrz";
 

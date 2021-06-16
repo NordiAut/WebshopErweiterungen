@@ -124,10 +124,12 @@ namespace webshop.Controllers
                 .Include(x => x.OrderTable)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
+        
 
             // get orderTable from customer
             var oderTable = db.OrderTable
                 .Include(x => x.Customer)
+                .OrderByDescending(o => o.Order_ID)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
             var orderId = oderTable.Order_ID;
@@ -252,10 +254,12 @@ namespace webshop.Controllers
                     .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
 
-                // get orderTable from customer
-                var orderTable = db.OrderTable
-                    .Include(x => x.Customer)
-                    .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+           
+            // get orderTable from customer
+            var orderTable = db.OrderTable
+                .Include(x => x.Customer)
+                .OrderByDescending(o => o.Order_ID)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
                 var orderId = orderTable.Order_ID;
                 // get list of orderlines
