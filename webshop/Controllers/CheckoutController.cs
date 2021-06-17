@@ -252,7 +252,7 @@ namespace webshop.Controllers
             //fileStream.Close();
 
             //TODO Email
-            string from = "itn132163@qualifizierung.at"; 
+            string from = "platz12@lap-itcc.net";
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -265,15 +265,15 @@ namespace webshop.Controllers
                 mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.office365.com";
+                smtp.Host = "mail.your-server.de";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, pw);
+                NetworkCredential networkCredential = new NetworkCredential(from, "platz12IT-SYST");
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 587;
+                smtp.Port = 25;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mail);
-                
+
             }
 
             Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
