@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="webshopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="webshopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_ID" />
@@ -73,6 +73,7 @@
           <Property Name="NetUnitPrice" Type="money" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Stock" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_P_CAID">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
@@ -162,8 +163,7 @@
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="webshopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -245,6 +245,7 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_P_CAID" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Manufacturer" Relationship="Self.FK_P_SCID" FromRole="Product" ToRole="Manufacturer" />
           <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_PRID" FromRole="Product" ToRole="OrderLine" />
+          <Property Name="Stock" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_P_CAID">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
@@ -405,6 +406,7 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="webshopModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Manufacturer_ID" ColumnName="Manufacturer_ID" />
                 <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />

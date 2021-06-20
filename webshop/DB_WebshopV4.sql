@@ -1,9 +1,15 @@
 
 /* webshop V4 */ 
 
-use webshop;
+
+/* webshop V4 Lagerbestand*/ 
 
 
+ALTER TABLE Product
+ADD Stock int not null default(20)
+
+
+use webshopLagerbestand;
 
 
 /* Manufacturer */ 

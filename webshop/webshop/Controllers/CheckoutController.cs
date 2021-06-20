@@ -152,6 +152,7 @@ namespace webshop.Controllers
 
         public ActionResult Invoice(OrderCustomerOrderLine orderObject)
         {
+            Services.Helper.UpdateProductStock(orderObject.Order_Id);
             var checkoutObject = new OrderCustomerOrderLine();
 
             var customerId = Convert.ToInt32(Session["idUser"]);

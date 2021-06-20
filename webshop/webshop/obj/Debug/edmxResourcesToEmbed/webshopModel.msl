@@ -66,6 +66,7 @@
     <EntitySetMapping Name="Product">
       <EntityTypeMapping TypeName="webshopModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Stock" ColumnName="Stock" />
           <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
           <ScalarProperty Name="Manufacturer_ID" ColumnName="Manufacturer_ID" />
           <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />

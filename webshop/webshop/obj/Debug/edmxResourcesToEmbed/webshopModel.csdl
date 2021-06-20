@@ -78,6 +78,7 @@
     <NavigationProperty Name="Category" Relationship="Self.FK_P_CAID" FromRole="Product" ToRole="Category" />
     <NavigationProperty Name="Manufacturer" Relationship="Self.FK_P_SCID" FromRole="Product" ToRole="Manufacturer" />
     <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_PRID" FromRole="Product" ToRole="OrderLine" />
+    <Property Name="Stock" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="FK_P_CAID">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />

@@ -58,6 +58,34 @@ namespace webshop.Services
 
         }
 
+        public static void UpdateProductStock(int orderId)
+        {
+            using (var db = new webshopEntities())
+            {
+                //Load
+                var orderlines = db.OrderLine.Where(ol => ol.Order_ID == orderId).ToList();
+
+                //Loop
+                foreach (var orderLine in orderlines)
+                {
+                    //Load procuct
+                    var dbProduct = db.Product.Where(p => p.Product_ID == orderLine.Product_ID).FirstOrDefault();
+
+                    //Manipulate stock
+                    if (dbProduct.Stock - orderLine.Amount < 10)
+                    {
+                        dbProduct.Stock = 20;
+                    }
+                    else
+                    {
+                        dbProduct.Stock -= Convert.ToInt32(orderLine.Amount);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+
+
 
     }
 }

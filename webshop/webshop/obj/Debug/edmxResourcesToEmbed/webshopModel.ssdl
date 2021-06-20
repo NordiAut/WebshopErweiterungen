@@ -68,6 +68,7 @@
     <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
     <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Stock" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_P_CAID">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
