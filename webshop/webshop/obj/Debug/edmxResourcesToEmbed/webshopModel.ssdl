@@ -42,6 +42,8 @@
     <Property Name="Amount" Type="int" Nullable="false" />
     <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="TaxRate" Type="float" Nullable="false" />
+    <Property Name="NetLinePrice" Type="decimal" Precision="28" Scale="2" Nullable="false" />
+    <Property Name="VolumeDiscount" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>

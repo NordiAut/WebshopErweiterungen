@@ -36,8 +36,12 @@ namespace webshop.ViewModel
 
         [DisplayName("Total")]
         public Nullable<decimal> priceLine { get; set; }
-        
-      
+
+        [DisplayName("Original")]
+        public decimal originalLinePrice { get; set; }
+
+
+
 
 
 

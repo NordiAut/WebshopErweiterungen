@@ -1,7 +1,16 @@
 
 /* webshop V4 */ 
 
-use webshop;
+use webshopMengenrabatt;
+
+ALTER TABLE OrderLine
+ADD NetLinePrice decimal(28,2) not null default(0)
+
+ALTER TABLE OrderLine
+ADD VolumeDiscount bit not null default(0)
+
+UPDATE OrderLine
+SET NetLinePrice = NetUnitPrice * Amount
 
 
 

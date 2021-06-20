@@ -144,6 +144,8 @@ namespace webshop.Controllers
                 return RedirectToAction("EmptyCart");
             }
 
+           
+
             foreach (var line in orderLine)
             {
 
@@ -160,9 +162,13 @@ namespace webshop.Controllers
                         Product_Name = product.Product_Name,
                         ImagePath = product.ImagePath,
                         Manufacturer_Name = product.Manufacturer.Manufacturer_Name,
-                        priceLine = line.Amount * line.NetUnitPrice
+
+                        
 
                 };
+                temp_line.originalLinePrice = line.Amount * line.NetUnitPrice;
+                temp_line.priceLine = line.NetLinePrice;
+
                 showList.Add(temp_line);
 
                total += temp_line.priceLine ?? default;
@@ -183,6 +189,12 @@ namespace webshop.Controllers
         [HttpPost]
         public ActionResult ShoppingCart(IList<webshop.ViewModel.OrderLineProductViewModel> orderlineList)
         {
+
+            var customerId = Convert.ToInt32(Session["idUser"]);
+
+            // get customer
+            var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
             foreach (var orderLine in orderlineList)
             {
                 var orderLineDB = db.OrderLine
@@ -193,23 +205,35 @@ namespace webshop.Controllers
                 var product = db.Product.Where(p => p.Product_ID == orderLineDB.Product_ID).FirstOrDefault();
 
                 // create new orderline 
-                var newOrderLine = new OrderLine()
-                {
-                    Order_ID = orderLineDB.Order_ID,
-                    Product_ID = orderLineDB.Product_ID,
-                    Amount = orderLine.Amount,
-                    NetUnitPrice = orderLineDB.NetUnitPrice,
-                    TaxRate = product.Category.TaxRate
-                };
+                //var newOrderLine = new OrderLine()
+                //{
+                //    Order_ID = orderLineDB.Order_ID,
+                //    Product_ID = orderLineDB.Product_ID,
+                //    Amount = orderLine.Amount,
+                //    NetUnitPrice = orderLineDB.NetUnitPrice,
+                //    TaxRate = product.Category.TaxRate
+                //};
+                //newOrderLine.Amount = orderLine.Amount;
+                //db.OrderLine.Add(newOrderLine);
+                //db.OrderLine.Remove(orderLineDB);
 
-                newOrderLine.Amount = orderLine.Amount;
 
-                db.OrderLine.Add(newOrderLine);
-                db.OrderLine.Remove(orderLineDB);
-                
+                // New save shopping card
+                var orderLinetoSave = db.OrderLine.Where(o => o.OrderLine_ID == orderLine.ID).FirstOrDefault();
+
+                orderLinetoSave.TaxRate = product.Category.TaxRate;
+                orderLinetoSave.Amount = orderLine.Amount;
+
+                db.Entry(orderLinetoSave).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //Update netlineprice
+                Services.Helper.UpdateVolumeDiscounts(customer.Email);
+
+
             }
 
-            db.SaveChanges();
+           
 
             return RedirectToAction("ShoppingCart");
         }
@@ -297,6 +321,9 @@ namespace webshop.Controllers
                     db.OrderLine.Remove(orderlineProduct);
                     db.SaveChanges();
 
+                    //Update netlineprice
+                    Services.Helper.UpdateVolumeDiscounts(customer.Email);
+
                 } // If not add product to list
                 else
                 {
@@ -313,6 +340,9 @@ namespace webshop.Controllers
                     // change db
                     db.OrderLine.Add(newOrderLine);
                     db.SaveChanges();
+
+                    //Update netlineprice
+                    Services.Helper.UpdateVolumeDiscounts(customer.Email);
                 }
             }
 
@@ -415,6 +445,9 @@ namespace webshop.Controllers
                     db.OrderLine.Remove(orderlineProduct);
                     db.SaveChanges();
 
+                    //Update netlineprice
+                    Services.Helper.UpdateVolumeDiscounts(customer.Email);
+
                 } // If not add product to list
                 else
                 {
@@ -431,6 +464,9 @@ namespace webshop.Controllers
                     // change db
                     db.OrderLine.Add(newOrderLine);
                     db.SaveChanges();
+
+                    //Update netlineprice
+                    Services.Helper.UpdateVolumeDiscounts(customer.Email);
                 }
             }
 
@@ -465,6 +501,10 @@ namespace webshop.Controllers
 
             db.OrderLine.Remove(orderlineProduct);
             db.SaveChanges();
+
+            //Update netlineprice
+            Services.Helper.UpdateVolumeDiscounts(customer.Email);
+
             return RedirectToAction("ShoppingCart");
         }
 
