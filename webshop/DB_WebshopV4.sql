@@ -3,7 +3,23 @@
 
 use webshop;
 
+/* Add Role column to Customer.*/ 
 
+ALTER TABLE Customer 
+ADD AccessRole nvarchar(30) not null default('Customer');
+
+
+/* 
+Setup with Bool
+
+ALTER TABLE Customer
+ADD AccessRole bit not null default(0)
+
+If column needs to be dropped
+
+alter table Customer drop constraint [DF__Customer__Access__32E0915F];
+ALTER TABLE Customer
+DROP COLUMN AccessRole;*/ 
 
 
 /* Manufacturer */ 

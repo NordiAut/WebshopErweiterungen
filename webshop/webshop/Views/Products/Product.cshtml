@@ -7,6 +7,17 @@
 
 <h2>Product</h2>
 
+@if (Session["Role"] == "Admin")
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
+
+
+
+
+
 <br />
 @using (Html.BeginForm("Product", "Products", FormMethod.Get))
 {
@@ -17,8 +28,8 @@
     @Html.DropDownListFor(x => x.ManufactorerFilter, Model.ManufacturerListItem, "Manufacturer")
 
     <input type="submit" value="Search" />
-}
 
+}
 
 
 
@@ -52,10 +63,22 @@
             </td>
 
             <td>
-                
+
                 @Html.ActionLink("Add to Cart", "Add", new { id = item.Product_ID }) |
 
                 @Html.ActionLink("Details", "Details", new { id = item.Product_ID })
+
+                @if (Session["Role"] == "Admin")
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Product_ID })
+                }
+
+                @if (Session["Role"] == "Admin")
+                {
+                    <span>|</span>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Product_ID })
+                }
 
             </td>
         </tr>

@@ -124,11 +124,18 @@ namespace webshop.Controllers
                     // If password is valid 
                     if (customer.PwHash.SequenceEqual(hashPassword))
                     {
+                       
                         //add session
                         Session["FullName"] = customer.FirstName + " " + customer.LastName;
                         Session["Email"] = customer.Email;
                         Session["idUser"] = customer.Customer_ID;
-                        
+
+                        if (customer.AccessRole == "Admin")
+                        {
+                            Session["Role"] = "Admin";
+                        }
+
+
                         return RedirectToAction("Index");
                     }
                     else

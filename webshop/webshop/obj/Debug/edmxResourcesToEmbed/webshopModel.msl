@@ -13,6 +13,7 @@
     <EntitySetMapping Name="Customer">
       <EntityTypeMapping TypeName="webshopModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
+          <ScalarProperty Name="AccessRole" ColumnName="AccessRole" />
           <ScalarProperty Name="Customer_ID" ColumnName="Customer_ID" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
