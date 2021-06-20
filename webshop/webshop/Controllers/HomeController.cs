@@ -22,6 +22,7 @@ namespace webshop.Controllers
 
         public ActionResult Landing()
         {
+          
             var product = db.Product.Take(3);
             return View(product.ToList());
 

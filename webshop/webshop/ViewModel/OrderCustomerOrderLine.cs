@@ -35,6 +35,8 @@ namespace webshop.ViewModel
 
         public string Payment { get; set; }
 
+        public string Coupon { get; set; }
+
         public List<OrderLineProductViewModel> OrderLineProductList { set; get; }
 
     }

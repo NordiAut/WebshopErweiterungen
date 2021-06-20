@@ -140,6 +140,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderLinesController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Coupon.cs">
+      <DependentUpon>webshopModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CouponCustomer.cs">
+      <DependentUpon>webshopModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Customer.cs">
       <DependentUpon>webshopModel.tt</DependentUpon>
     </Compile>

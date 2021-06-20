@@ -1,7 +1,26 @@
 
 /* webshop V4 */ 
 
-use webshop;
+use webshopCoupon;
+
+
+CREATE TABLE Coupon(
+Coupon_ID int IDENTITY not null, 
+Coupon_Name nvarchar(60),
+Discount int not null,
+Constraint PK_C_CID Primary Key (Coupon_ID));
+
+
+CREATE TABLE CouponCustomer(
+CouponCustomer_Id int not null primary key,
+Coupon_ID int not null, 
+Customer_ID int not null, 
+CONSTRAINT FK_Coupon_CCID FOREIGN KEY (Coupon_ID) REFERENCES Coupon (Coupon_ID),
+CONSTRAINT FK_Customer_CCID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID));
+
+
+Insert Into Coupon (Coupon_Name,Discount)
+Values('Test','20');
 
 
 

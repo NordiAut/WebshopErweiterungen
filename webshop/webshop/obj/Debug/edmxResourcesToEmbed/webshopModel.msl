@@ -10,6 +10,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Coupon">
+      <EntityTypeMapping TypeName="webshopModel.Coupon">
+        <MappingFragment StoreEntitySet="Coupon">
+          <ScalarProperty Name="Coupon_ID" ColumnName="Coupon_ID" />
+          <ScalarProperty Name="Coupon_Name" ColumnName="Coupon_Name" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CouponCustomer">
+      <EntityTypeMapping TypeName="webshopModel.CouponCustomer">
+        <MappingFragment StoreEntitySet="CouponCustomer">
+          <ScalarProperty Name="CouponCustomer_Id" ColumnName="CouponCustomer_Id" />
+          <ScalarProperty Name="Coupon_ID" ColumnName="Coupon_ID" />
+          <ScalarProperty Name="Customer_ID" ColumnName="Customer_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Customer">
       <EntityTypeMapping TypeName="webshopModel.Customer">
         <MappingFragment StoreEntitySet="Customer">

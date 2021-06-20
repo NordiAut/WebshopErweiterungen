@@ -8,6 +8,22 @@
     <Property Name="Category_Name" Type="nvarchar" MaxLength="30" />
     <Property Name="TaxRate" Type="float" Nullable="false" />
   </EntityType>
+  <EntityType Name="Coupon">
+    <Key>
+      <PropertyRef Name="Coupon_ID" />
+    </Key>
+    <Property Name="Coupon_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Coupon_Name" Type="nvarchar" MaxLength="60" />
+    <Property Name="Discount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CouponCustomer">
+    <Key>
+      <PropertyRef Name="CouponCustomer_Id" />
+    </Key>
+    <Property Name="CouponCustomer_Id" Type="int" Nullable="false" />
+    <Property Name="Coupon_ID" Type="int" Nullable="false" />
+    <Property Name="Customer_ID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="Customer_ID" />
@@ -69,6 +85,30 @@
     <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
     <Property Name="Description" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <Association Name="FK_Coupon_CCID">
+    <End Role="Coupon" Type="Self.Coupon" Multiplicity="1" />
+    <End Role="CouponCustomer" Type="Self.CouponCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Coupon">
+        <PropertyRef Name="Coupon_ID" />
+      </Principal>
+      <Dependent Role="CouponCustomer">
+        <PropertyRef Name="Coupon_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Customer_CCID">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="CouponCustomer" Type="Self.CouponCustomer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Customer_ID" />
+      </Principal>
+      <Dependent Role="CouponCustomer">
+        <PropertyRef Name="Customer_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_P_CAID">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
     <End Role="Product" Type="Self.Product" Multiplicity="*" />
@@ -131,11 +171,21 @@
   </Association>
   <EntityContainer Name="webshopModelStoreContainer">
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Coupon" EntityType="Self.Coupon" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CouponCustomer" EntityType="Self.CouponCustomer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderLine" EntityType="Self.OrderLine" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderTable" EntityType="Self.OrderTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Coupon_CCID" Association="Self.FK_Coupon_CCID">
+      <End Role="Coupon" EntitySet="Coupon" />
+      <End Role="CouponCustomer" EntitySet="CouponCustomer" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Customer_CCID" Association="Self.FK_Customer_CCID">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="CouponCustomer" EntitySet="CouponCustomer" />
+    </AssociationSet>
     <AssociationSet Name="FK_P_CAID" Association="Self.FK_P_CAID">
       <End Role="Category" EntitySet="Category" />
       <End Role="Product" EntitySet="Product" />

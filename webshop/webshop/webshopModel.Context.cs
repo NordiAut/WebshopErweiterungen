@@ -26,6 +26,8 @@ namespace webshop
         }
     
         public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Coupon> Coupon { get; set; }
+        public virtual DbSet<CouponCustomer> CouponCustomer { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Manufacturer> Manufacturer { get; set; }
         public virtual DbSet<OrderLine> OrderLine { get; set; }

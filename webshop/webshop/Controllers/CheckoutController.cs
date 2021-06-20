@@ -33,13 +33,11 @@ namespace webshop.Controllers
 
             // get customer
             var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
-            // get order from customer
 
             // get orderTable from customer
             var order = db.OrderTable
                 .OrderByDescending(o => o.Order_ID)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
-
             // get list of orderlines from order from customer
             var orderId = order.Order_ID;
             var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
@@ -79,6 +77,7 @@ namespace webshop.Controllers
             }
 
             var nettoTotal = total;
+
             var bruttoTotal = nettoTotal * 1.2M;
             var UST = bruttoTotal- nettoTotal;
             ViewBag.UST = Math.Round(UST, 2);
@@ -127,22 +126,47 @@ namespace webshop.Controllers
             tempOrder.DeliveryStreet = orderobject.DeliveryStreet;
             tempOrder.DeliveryZip = orderobject.DeliveryZip;
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
+
+
+            // Coupon
             tempOrder.Payment = orderobject.Payment;
+            tempOrder.Coupon = orderobject.Coupon;
+
+            // Coupon
+            //bool check = Services.Helper.CouponCheck(orderobject.Coupon,orderobject.Customer_Id);
+            //if (check)
+            //{
+            //    tempOrder.PriceTotal = Services.Helper.CouponActivation(tempOrder.PriceTotal, orderobject.Coupon,
+            //        orderobject.Customer_Id);
+            //}
 
             if (tempOrder.DeliveryCity == null || tempOrder.DeliveryFirstName == null || tempOrder.DeliveryLastName == null || tempOrder.DeliveryZip.Length <4 || tempOrder.DeliveryZip.Length > 4 || tempOrder.DeliveryStreet == null)
             {
                 return View(tempOrder);
             }
 
+            if (orderobject.Coupon != null)
+            {
+                if (!Services.Helper.CouponCheck(orderobject.Coupon, orderobject.Customer_Id))
+                {
+                    ViewBag.ErrorCoupon = "Invalid Coupon";
+                    return View(tempOrder);
+                }
+            }
+
+            // Coupon End
+
+
             var orderObject = new OrderCustomerOrderLine();
             orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderobject.Order_Id).FirstOrDefault();
+
             if (orderObject.Payment == null)
             {
-                return RedirectToAction("Invoice", orderObject);
+                return RedirectToAction("Invoice", tempOrder);
             }
             else if (orderobject.Payment == "invoice")
             {
-                return RedirectToAction("Invoice", orderObject);
+                return RedirectToAction("Invoice", tempOrder);
             }
             return RedirectToAction("Checkout");
 
@@ -202,6 +226,23 @@ namespace webshop.Controllers
 
             // Netto and Brutto
             var nettoTotal = total;
+            decimal before = nettoTotal;
+
+            // Coupon
+            bool check = Services.Helper.CouponCheck(orderObject.Coupon, customerId);
+            if (check)
+            {
+                nettoTotal = Services.Helper.CouponActivation(nettoTotal, orderObject.Coupon,
+                    orderObject.Customer_Id);
+                checkoutObject.Coupon = orderObject.Coupon;
+            }
+            
+
+            var couponDiscountPrice = before - nettoTotal;
+
+            ViewBag.Coupon = Math.Round(couponDiscountPrice, 2);
+
+            // Coupon End
 
 
             var bruttoTotal = nettoTotal * 1.2M;
@@ -252,7 +293,7 @@ namespace webshop.Controllers
             //fileStream.Close();
 
             //TODO Email
-            string from = "platz12@lap-itcc.net";
+            string from = "itn132163@qualifizierung.at"; 
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -265,17 +306,16 @@ namespace webshop.Controllers
                 mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "mail.your-server.de";
+                smtp.Host = "smtp.office365.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "platz12IT-SYST");
+                NetworkCredential networkCredential = new NetworkCredential(from, pw);
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 25;
+                smtp.Port = 587;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mail);
-
+                
             }
-
             Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
 
             //return invoice;
@@ -316,6 +356,34 @@ namespace webshop.Controllers
 
             // Netto and Brutto
             var nettoTotal = total;
+            decimal before = nettoTotal;
+
+            // Coupon
+            bool check = Services.Helper.CouponCheck(orderObject.Coupon, orderObject.Customer_Id);
+            if (check)
+            {
+                nettoTotal = Services.Helper.CouponActivation(nettoTotal, orderObject.Coupon,
+                    orderObject.Customer_Id);
+            }
+
+            // Save coupon and customer in DB if was valid
+            if (check)
+            {
+                Services.Helper.CouponSave(orderObject.Coupon, orderObject.Customer_Id);
+            }
+
+            if (!check)
+            {
+                orderObject.Coupon = null;
+            }
+          
+
+            var couponDiscountPrice = before - nettoTotal;
+
+            ViewBag.Coupon = Math.Round(couponDiscountPrice, 2);
+
+            // Coupon End
+
             var bruttoTotal = nettoTotal * 1.2M;
             var UST = bruttoTotal - nettoTotal;
             ViewBag.UST = Math.Round(UST, 2);
@@ -331,6 +399,22 @@ namespace webshop.Controllers
 
 
 
+        //[HttpPost]
+        //public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
+        //{
+
+        //    var orderObject = new OrderCustomerOrderLine();
+        //    orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
+        //    if (orderObject.Payment == null)
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    else if (orderobject.Payment == "invoice")
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    return RedirectToAction("Checkout");
+        //}
 
         private static string pw = "Oliverbbrz";
 

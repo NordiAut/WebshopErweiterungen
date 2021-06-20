@@ -59,5 +59,73 @@ namespace webshop.Services
         }
 
 
+
+        public static decimal CouponActivation(decimal price, string couponName, int CustomerId)
+        {
+
+            using (var db = new webshopEntities())
+            {
+                var coupon = db.Coupon.Where(C => C.Coupon_Name == couponName).FirstOrDefault();
+
+                var discountPercentage = coupon.Discount;
+
+                var moneyToDiscount = price / 100 * discountPercentage;
+
+                var discountedPrice = price - moneyToDiscount;
+
+                CouponCustomer usedCoupon = new CouponCustomer();
+
+                usedCoupon.Coupon_ID = coupon.Coupon_ID;
+                usedCoupon.Customer_ID = CustomerId;
+
+
+                return discountedPrice;
+
+            }
+        }
+
+        public static bool CouponCheck(string couponName, int CustomerId)
+        {
+
+            using (var db = new webshopEntities())
+            {
+                CouponCustomer couponCustomer = new CouponCustomer();
+                
+                var coupon = db.Coupon.Where(C => C.Coupon_Name == couponName).FirstOrDefault();
+                if (coupon != null)
+                {
+                    couponCustomer = db.CouponCustomer
+                        .Where(c => (c.Coupon_ID == coupon.Coupon_ID) && (c.Customer_ID == CustomerId)).FirstOrDefault();
+                }
+
+                bool check = false;
+
+                if (couponCustomer == null)
+                {
+                    check = true;
+                }
+
+                return check;
+
+            }
+        }
+
+        public static void CouponSave(string couponName, int CustomerId)
+        {
+
+            using (var db = new webshopEntities())
+            {
+                var coupon = db.Coupon.Where(C => C.Coupon_Name == couponName).FirstOrDefault();
+
+                CouponCustomer couponCustomer = new CouponCustomer();
+
+                couponCustomer.Customer_ID = CustomerId;
+                couponCustomer.Coupon_ID = coupon.Coupon_ID;
+
+                db.CouponCustomer.Add(couponCustomer);
+                db.SaveChanges();
+
+            }
+        }
     }
 }
