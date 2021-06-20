@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 
 namespace webshop.Services
@@ -8,7 +11,7 @@ namespace webshop.Services
     public class Helper
     {
 
-        
+
         private static Random rng = new Random();
 
         public static void Shuffle<T>(IList<T> list)
@@ -55,9 +58,49 @@ namespace webshop.Services
                 db.SaveChanges();
 
             }
+        }
+
+        public static void EmailActivation(string text, string email)
+        {
+
+            string from = "platz12@lap-itcc.net";
+            using (MailMessage mail = new MailMessage(from, email))
+            {
+                mail.Subject = "Account activation";
+                mail.Body = "Your Account activation link: " + text;
+
+                //Attachment attPDF = new Attachment(new MemoryStream(byteArray), "Invoice");
+                //mail.Attachments.Add(new Attachment(new MemoryStream(byteArray), "Invoice"));
+                //mail.Attachments.Add(attPDF);
+
+                mail.IsBodyHtml = false;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "mail.your-server.de";
+                smtp.EnableSsl = true;
+                NetworkCredential networkCredential = new NetworkCredential(from, "platz12IT-SYST");
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = networkCredential;
+                smtp.Port = 25;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mail);
+
+            }
 
         }
 
+        public static void SetCustomerActive(int customerId)
+        {
+            using (var db = new webshopEntities())
+            {
+                // get customer
+                var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
+
+                customer.Active = true;
+
+                db.Entry(customer);
+                db.SaveChanges();
+            }
+        }
 
     }
 }

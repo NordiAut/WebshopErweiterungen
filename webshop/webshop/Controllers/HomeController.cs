@@ -80,6 +80,13 @@ namespace webshop.Controllers
                     db.Customer.Add(newCustomer);
                     db.OrderTable.Add(newOrder);
                     db.SaveChanges();
+
+                    //Account activation 
+                    var activationLink = $"http://localhost:{58869}/Home/AccountActivation?id={newCustomer.Customer_ID}";
+
+                    Services.Helper.EmailActivation(activationLink, newCustomer.Email);
+
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -90,6 +97,12 @@ namespace webshop.Controllers
 
             }
 
+            return View();
+        }
+
+        public ActionResult AccountActivation(int id)
+        {
+            Services.Helper.SetCustomerActive(id);
             return View();
         }
 
@@ -115,8 +128,8 @@ namespace webshop.Controllers
                 // var data = db.Customer.Where(s => s.Email.Equals(email) && s.PwHash.Equals(hashPassword)).ToList();
 
 
-                // If ccustomer is registered
-                if (customer != null)
+                // If ccustomer is registered && active
+                if (customer != null && customer.Active == true)
                 {
                     // Get Password hashed
                     var hashPassword = GetSaltedStringHash(password, customer.Salt);
@@ -140,7 +153,7 @@ namespace webshop.Controllers
                 }
                 else
                 {
-                    ViewBag.LogInError = "Email not registered";
+                    ViewBag.LogInError = "Email not registered or not activated";
                     return View();
                 }
             }
@@ -153,6 +166,7 @@ namespace webshop.Controllers
             Session.Clear();//remove session
             return RedirectToAction("Login");
         }
+
 
 
 

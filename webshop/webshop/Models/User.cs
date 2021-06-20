@@ -43,6 +43,8 @@ namespace webshop.Models
         [Required]
         public string Password { get; set; }
 
+
+        [DataType(DataType.Password)]
         [NotMapped]
         [Required]
         [System.ComponentModel.DataAnnotations.Compare("Password")]

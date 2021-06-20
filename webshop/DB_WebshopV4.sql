@@ -1,10 +1,11 @@
 
 /* webshop V4 */ 
 
-use webshop;
+Alter TABLE Customer
+ADD Active bit not null default(0); 
 
 
-
+use webshopAccountActive;
 
 /* Manufacturer */ 
 CREATE TABLE Manufacturer(

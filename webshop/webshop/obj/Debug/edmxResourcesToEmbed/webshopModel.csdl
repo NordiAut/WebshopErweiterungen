@@ -24,6 +24,7 @@
     <Property Name="PwHash" Type="Binary" MaxLength="32" FixedLength="true" />
     <Property Name="Salt" Type="Binary" MaxLength="32" FixedLength="true" />
     <NavigationProperty Name="OrderTable" Relationship="Self.FK_P_PID" FromRole="Customer" ToRole="OrderTable" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Manufacturer">
     <Key>
