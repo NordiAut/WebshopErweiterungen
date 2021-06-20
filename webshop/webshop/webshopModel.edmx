@@ -61,6 +61,12 @@
           <Property Name="City" Type="nvarchar" MaxLength="30" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
           <Property Name="LastName" Type="nvarchar" MaxLength="30" />
+          <Property Name="DeliveryFirstName" Type="nvarchar" MaxLength="30" />
+          <Property Name="DeliveryLastName" Type="nvarchar" MaxLength="30" />
+          <Property Name="DeliveryCity" Type="nvarchar" MaxLength="30" />
+          <Property Name="DeliveryStreet" Type="nvarchar" MaxLength="30" />
+          <Property Name="DeliveryZip" Type="nvarchar" MaxLength="30" />
+          <Property Name="Payment" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -228,6 +234,12 @@
           <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryFirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryLastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryCity" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryStreet" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveryZip" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Payment" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_P_PID" FromRole="OrderTable" ToRole="Customer" />
           <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_OOID" FromRole="OrderTable" ToRole="OrderLine" />
         </EntityType>
@@ -399,6 +411,12 @@
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DeliveryFirstName" ColumnName="DeliveryFirstName" />
+                <ScalarProperty Name="DeliveryLastName" ColumnName="DeliveryLastName" />
+                <ScalarProperty Name="DeliveryCity" ColumnName="DeliveryCity" />
+                <ScalarProperty Name="DeliveryStreet" ColumnName="DeliveryStreet" />
+                <ScalarProperty Name="DeliveryZip" ColumnName="DeliveryZip" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

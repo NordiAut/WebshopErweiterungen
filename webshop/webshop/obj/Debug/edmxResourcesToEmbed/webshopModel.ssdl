@@ -56,6 +56,12 @@
     <Property Name="City" Type="nvarchar" MaxLength="30" />
     <Property Name="FirstName" Type="nvarchar" MaxLength="30" />
     <Property Name="LastName" Type="nvarchar" MaxLength="30" />
+    <Property Name="DeliveryFirstName" Type="nvarchar" MaxLength="30" />
+    <Property Name="DeliveryLastName" Type="nvarchar" MaxLength="30" />
+    <Property Name="DeliveryCity" Type="nvarchar" MaxLength="30" />
+    <Property Name="DeliveryStreet" Type="nvarchar" MaxLength="30" />
+    <Property Name="DeliveryZip" Type="nvarchar" MaxLength="30" />
+    <Property Name="Payment" Type="nvarchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Product">
     <Key>

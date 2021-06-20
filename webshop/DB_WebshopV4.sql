@@ -1,10 +1,19 @@
 
 /* webshop V4 */ 
 
-use webshop;
+use webshopInvoicePW;
 
 
+ALTER TABLE OrderTable
+ADD DeliveryFirstName nvarchar(30),
+DeliveryLastName nvarchar(30),
+DeliveryCity nvarchar(30),
+DeliveryStreet nvarchar(30),
+DeliveryZip nvarchar(30),
+Payment nvarchar(30);
 
+ALTER TABLE OrderTable
+ADD Payment nvarchar(30)
 
 /* Manufacturer */ 
 CREATE TABLE Manufacturer(

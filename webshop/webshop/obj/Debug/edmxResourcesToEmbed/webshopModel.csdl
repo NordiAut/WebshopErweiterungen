@@ -61,6 +61,12 @@
     <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryFirstName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryLastName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryCity" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryStreet" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="DeliveryZip" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Payment" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Customer" Relationship="Self.FK_P_PID" FromRole="OrderTable" ToRole="Customer" />
     <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_OOID" FromRole="OrderTable" ToRole="OrderLine" />
   </EntityType>

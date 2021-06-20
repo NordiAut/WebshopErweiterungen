@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using webshop.Models;
+using webshop.ViewModel;
 
 namespace webshop.Controllers
 {
@@ -13,6 +14,101 @@ namespace webshop.Controllers
     {
 
         private webshopEntities db = new webshopEntities();
+
+        [HttpGet]
+        public ActionResult PasswordInvoice()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PasswordInvoice(string password)
+        { 
+            var email = Session["Email"].ToString();
+            var customer = db.Customer.Where(s => s.Email.Equals(email)).FirstOrDefault();
+
+            // Get Password hashed
+            var hashPassword = GetSaltedStringHash(password, customer.Salt);
+
+
+            var checkoutObject = new OrderCustomerOrderLine();
+
+            var customerId = Convert.ToInt32(Session["idUser"]);
+            // get order from customer
+            var order = db.OrderTable
+                .OrderByDescending(o => o.DateOrdered)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+            
+            // get list of orderlines from order from customer
+            var orderId = order.Order_ID;
+            var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+            var cartlist = new List<OrderLineProductViewModel>();
+
+            decimal total = 0.0m;
+
+            // fill cartlist
+            foreach (var line in orderLine)
+            {
+
+                var product = db.Product.Where(x => x.Product_ID == line.Product_ID).FirstOrDefault();
+                // Fill up line
+                var temp_line = new OrderLineProductViewModel()
+                {
+                    ID = line.OrderLine_ID,
+                    Order_Id = line.Order_ID,
+                    Amount = line.Amount,
+                    NetUnitPrice = line.NetUnitPrice,
+                    TaxRate = line.TaxRate,
+                    Product_ID = line.Product_ID,
+                    Product_Name = product.Product_Name,
+                    ImagePath = product.ImagePath,
+                    Manufacturer_Name = product.Manufacturer.Manufacturer_Name,
+                    priceLine = line.Amount * line.NetUnitPrice
+
+                };
+                cartlist.Add(temp_line);
+
+                total += temp_line.priceLine ?? default;
+            }
+
+            // Netto and Brutto
+            var nettoTotal = total;
+
+            //Fill checkout object
+            checkoutObject.Customer_Id = customer.Customer_ID;
+            checkoutObject.Order_Id = order.Order_ID;
+            checkoutObject.PriceTotal = total;
+            checkoutObject.Email = customer.Email;
+            checkoutObject.Street = order.Street;
+            checkoutObject.Zip = order.Zip.ToString();
+            checkoutObject.City = order.City;
+            checkoutObject.FirstName = order.FirstName;
+            checkoutObject.LastName = order.LastName;
+
+            //fill delivery-data 
+            checkoutObject.DeliveryStreet = order.DeliveryStreet;
+            checkoutObject.DeliveryZip = order.DeliveryZip;
+            checkoutObject.DeliveryCity = order.DeliveryCity;
+            checkoutObject.DeliveryFirstName = order.DeliveryFirstName;
+            checkoutObject.DeliveryLastName = order.DeliveryLastName;
+            checkoutObject.Payment = order.Payment;
+
+
+            // If password is valid 
+            if (customer.PwHash.SequenceEqual(hashPassword))
+            {
+               
+                return RedirectToAction("InvoicePdf", "Checkout", checkoutObject);
+            }
+            else
+            {
+                ViewBag.LogInError = "Password incorrect";
+                return View();
+            }
+
+
+            
+        }
 
         public ActionResult Index()
         {

@@ -60,6 +60,12 @@
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="DeliveryFirstName" ColumnName="DeliveryFirstName" />
+          <ScalarProperty Name="DeliveryLastName" ColumnName="DeliveryLastName" />
+          <ScalarProperty Name="DeliveryCity" ColumnName="DeliveryCity" />
+          <ScalarProperty Name="DeliveryStreet" ColumnName="DeliveryStreet" />
+          <ScalarProperty Name="DeliveryZip" ColumnName="DeliveryZip" />
+          <ScalarProperty Name="Payment" ColumnName="Payment" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

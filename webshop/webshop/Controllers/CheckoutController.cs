@@ -129,6 +129,18 @@ namespace webshop.Controllers
             tempOrder.DeliveryCity = orderobject.DeliveryCity;
             tempOrder.Payment = orderobject.Payment;
 
+            var order = db.OrderTable.Where(o => o.Order_ID == orderobject.Order_Id).FirstOrDefault();
+            order.DeliveryFirstName = orderobject.DeliveryFirstName;
+            order.DeliveryLastName = orderobject.DeliveryLastName;
+            order.DeliveryStreet = orderobject.DeliveryStreet;
+            order.DeliveryZip = orderobject.DeliveryZip;
+            order.DeliveryCity = orderobject.DeliveryCity;
+            order.Payment = orderobject.Payment;
+            order.DateOrdered = DateTime.Now;
+            db.Entry(order);
+            db.SaveChanges();
+
+
             if (tempOrder.DeliveryCity == null || tempOrder.DeliveryFirstName == null || tempOrder.DeliveryLastName == null || tempOrder.DeliveryZip.Length <4 || tempOrder.DeliveryZip.Length > 4 || tempOrder.DeliveryStreet == null)
             {
                 return View(tempOrder);
@@ -328,6 +340,8 @@ namespace webshop.Controllers
 
             return View(orderObject);
         }
+        
+
 
 
 

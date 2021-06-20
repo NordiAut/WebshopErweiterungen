@@ -59,7 +59,9 @@
 
                             @if (Session["FullName"] != null)
                             {
-
+                                <li>
+                                    @Html.ActionLink("Invoice", "PasswordInvoice", "Home", new { area = "" }, new { @class = "dropdown-item" })
+                                </li>
                                 <li>
                                     @Html.ActionLink("Logout", "Logout", "Home", new { area = "" }, new { @class = "dropdown-item" })
                                 </li>

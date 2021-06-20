@@ -29,6 +29,12 @@ namespace webshop
         public string City { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string DeliveryFirstName { get; set; }
+        public string DeliveryLastName { get; set; }
+        public string DeliveryCity { get; set; }
+        public string DeliveryStreet { get; set; }
+        public string DeliveryZip { get; set; }
+        public string Payment { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
