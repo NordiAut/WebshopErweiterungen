@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -36,6 +37,17 @@ namespace webshop.ViewModel
         public string Payment { get; set; }
 
         public List<OrderLineProductViewModel> OrderLineProductList { set; get; }
+
+        public string CreditCardOwner { get; set; }
+
+      
+        [RegularExpression(@"^\d{16}$", ErrorMessage = "Invalid Credit Card Number")]
+        public string CardNumber { get; set; }
+        public string SecurityCode { get; set; }
+
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/yyyy}")]
+        public System.DateTime ExpiryDate { get; set; }
+
 
     }
 }

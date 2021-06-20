@@ -24,6 +24,31 @@ namespace webshop.Services
             }
         }
 
+        public static bool IsCardNumberValid(string cardNumber) //Luhn
+        {
+            cardNumber = cardNumber.Replace(" ", String.Empty);
+            int totalSum = 0;
+            bool odd = false;
+            for (int i = cardNumber.Length - 1; i >= 0; i--)
+            {
+                int digit = int.Parse(cardNumber[i].ToString());
+                if (odd)
+                {
+                    var actualNum = digit * 2;
+
+                    if (actualNum > 9) actualNum = actualNum - 9;
+
+                    totalSum += actualNum;
+                }
+                else
+                {
+                    totalSum += digit;
+                }
+                odd = !odd;
+            }
+            return totalSum % 10 == 0;
+        }
+
         public static void FinishOrder(int orderId, int customerId, decimal bruttoprice)
         {
             using (var db = new webshopEntities())

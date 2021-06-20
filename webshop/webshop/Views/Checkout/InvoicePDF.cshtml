@@ -232,6 +232,7 @@
             <div>
                 @Html.HiddenFor(model => model.Payment)
                 <h3>@Html.RadioButtonFor(model => model.Payment, "invoice", new { @checked = true }) - Invoice </h3>
+                <h3>@Html.RadioButtonFor(model => model.Payment, "creditcard", new { @checked = true }) - Credit Card </h3>
 
             </div>
             <hr />

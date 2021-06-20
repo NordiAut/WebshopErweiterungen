@@ -294,6 +294,8 @@
     <Content Include="webshopModel.edmx.diagram">
       <DependentUpon>webshopModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Checkout\CreditCard.cshtml" />
+    <Content Include="Views\Checkout\CreditCardInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

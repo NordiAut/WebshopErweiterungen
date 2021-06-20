@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Runtime.Remoting.Messaging;
 using System.Web;
 using System.Web.Mvc;
 using Rotativa;
@@ -144,6 +145,12 @@ namespace webshop.Controllers
             {
                 return RedirectToAction("Invoice", orderObject);
             }
+            else if (orderobject.Payment == "creditcard")
+            {
+                return RedirectToAction("CreditCard", orderObject);
+            }
+
+
             return RedirectToAction("Checkout");
 
             return View(tempOrder);
@@ -252,7 +259,7 @@ namespace webshop.Controllers
             //fileStream.Close();
 
             //TODO Email
-            string from = "platz12@lap-itcc.net";
+            string from = "itn132163@qualifizierung.at"; 
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -265,21 +272,51 @@ namespace webshop.Controllers
                 mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "mail.your-server.de";
+                smtp.Host = "smtp.office365.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "platz12IT-SYST");
+                NetworkCredential networkCredential = new NetworkCredential(from, pw);
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 25;
+                smtp.Port = 587;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mail);
-
+                
             }
 
             Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
 
             //return invoice;
             return View(checkoutObject);
+        }
+
+        // Credit Card Payment
+        [HttpGet]
+        public ActionResult CreditCard(OrderCustomerOrderLine orderObject)
+        {
+            
+            return View(orderObject);
+
+        }
+
+        [HttpPost]
+        public ActionResult CreditCard(OrderCustomerOrderLine orderObject, int? test)
+        {
+            bool check1 = Services.Helper.IsCardNumberValid(orderObject.CardNumber);
+            bool check2 = false;
+
+            if (DateTime.Now < orderObject.ExpiryDate)
+            {
+                check2 = true;
+            }
+          
+            // if input is valid
+            if (check1 && check2 && orderObject.CreditCardOwner != null && orderObject.CardNumber != null)
+            {
+                return RedirectToAction("CreditCardInvoice", orderObject);
+
+            }
+
+            return View(orderObject);
         }
 
         public ActionResult InvoicePDF(OrderCustomerOrderLine orderObject)
@@ -327,6 +364,138 @@ namespace webshop.Controllers
             orderObject.OrderLineProductList = cartlist;
 
             return View(orderObject);
+        }
+
+        public ActionResult CreditCardInvoice(OrderCustomerOrderLine orderObject)
+        {
+            var checkoutObject = new OrderCustomerOrderLine();
+
+            var customerId = Convert.ToInt32(Session["idUser"]);
+
+            // get customer
+            var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
+            // get order from customer
+            var order = db.OrderTable
+                .OrderByDescending(o => o.Order_ID)
+                .Where(x => x.Customer_ID == customerId).FirstOrDefault();
+            // get list of orderlines from order from customer
+            var orderId = order.Order_ID;
+            var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
+            var cartlist = new List<OrderLineProductViewModel>();
+
+            decimal total = 0.0m;
+
+            bool isEmpty = !orderLine.Any();
+            if (isEmpty)
+            {
+                return RedirectToAction("EmptyCart", "Products");
+            }
+
+            // fill cartlist
+            foreach (var line in orderLine)
+            {
+
+                var product = db.Product.Where(x => x.Product_ID == line.Product_ID).FirstOrDefault();
+                // Fill up line
+                var temp_line = new OrderLineProductViewModel()
+                {
+                    ID = line.OrderLine_ID,
+                    Order_Id = line.Order_ID,
+                    Amount = line.Amount,
+                    NetUnitPrice = line.NetUnitPrice,
+                    TaxRate = line.TaxRate,
+                    Product_ID = line.Product_ID,
+                    Product_Name = product.Product_Name,
+                    ImagePath = product.ImagePath,
+                    Manufacturer_Name = product.Manufacturer.Manufacturer_Name,
+                    priceLine = line.Amount * line.NetUnitPrice
+
+                };
+                cartlist.Add(temp_line);
+
+                total += temp_line.priceLine ?? default;
+            }
+
+            // Netto and Brutto
+            var nettoTotal = total;
+
+
+            var bruttoTotal = nettoTotal * 1.2M;
+            var UST = bruttoTotal - nettoTotal;
+            ViewBag.UST = Math.Round(UST, 2);
+            //Total viewbag
+            bruttoTotal = Math.Round(bruttoTotal, 2);
+            ViewBag.Total = bruttoTotal;
+
+
+            //Fill checkout object
+            checkoutObject.Customer_Id = customer.Customer_ID;
+            checkoutObject.Order_Id = order.Order_ID;
+            checkoutObject.PriceTotal = total;
+            checkoutObject.Email = customer.Email;
+            checkoutObject.Street = order.Street;
+            checkoutObject.Zip = order.Zip.ToString();
+            checkoutObject.City = order.City;
+            checkoutObject.FirstName = order.FirstName;
+            checkoutObject.LastName = order.LastName;
+
+            //fill delivery-data 
+            checkoutObject.DeliveryStreet = order.Street;
+            checkoutObject.DeliveryZip = order.Zip.ToString();
+            checkoutObject.DeliveryCity = order.City;
+            checkoutObject.DeliveryFirstName = order.FirstName;
+            checkoutObject.DeliveryLastName = order.LastName;
+            //add cartlist to checkoutObject
+            checkoutObject.OrderLineProductList = cartlist;
+
+
+
+            var invoice = new Rotativa.ActionAsPdf("InvoicePDF", orderObject);
+            // create invoice PDF
+            var invoicePDF = new Rotativa.ActionAsPdf("InvoicePDF", orderObject)
+            {
+                FileName = "TestView.pdf",
+                PageSize = Size.A4,
+                PageOrientation = Orientation.Portrait,
+                PageMargins = { Left = 1, Right = 1 }
+            };
+            byte[] byteArray = invoicePDF.BuildPdf(ControllerContext);
+
+            var memStream = new MemoryStream(byteArray);
+
+            //var fileStream = new FileStream("B:/Applikationsentwickler/invoice.pdf", FileMode.Create, FileAccess.Write);
+            //fileStream.Write(byteArray, 0, byteArray.Length);
+            //fileStream.Close();
+
+            //TODO Email
+            string from = "itn132163@qualifizierung.at";
+            using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
+            {
+                mail.Subject = "Invoice";
+                mail.Body = "Thanks for ordering!";
+
+                //Attachment attPDF = new Attachment(new MemoryStream(byteArray), "Invoice");
+                //mail.Attachments.Add(new Attachment(new MemoryStream(byteArray), "Invoice"));
+                //mail.Attachments.Add(attPDF);
+
+                mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
+                mail.IsBodyHtml = false;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.office365.com";
+                smtp.EnableSsl = true;
+                NetworkCredential networkCredential = new NetworkCredential(from, pw);
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = networkCredential;
+                smtp.Port = 587;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mail);
+
+            }
+
+            Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
+
+            //return invoice;
+            return View(checkoutObject);
         }
 
 

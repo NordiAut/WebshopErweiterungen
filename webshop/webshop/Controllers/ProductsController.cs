@@ -372,8 +372,10 @@ namespace webshop.Controllers
                     .Include(x => x.OrderTable)
                     .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
+
                 // get orderTable from customer
                 var orderTable = db.OrderTable
+                    .Include(x => x.Customer)
                     .OrderByDescending(o => o.Order_ID)
                     .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
@@ -450,11 +452,13 @@ namespace webshop.Controllers
                 .Include(x => x.OrderTable)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
 
+
+
             // get orderTable from customer
             var orderTable = db.OrderTable
+                .Include(x => x.Customer)
                 .OrderByDescending(o => o.Order_ID)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
-
 
             var orderId = orderTable.Order_ID;
             // get list of orderlines
