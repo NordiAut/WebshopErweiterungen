@@ -47,6 +47,7 @@
     <Property Name="TaxRate" Type="Double" Nullable="false" />
     <NavigationProperty Name="OrderTable" Relationship="Self.FK_P_OOID" FromRole="OrderLine" ToRole="OrderTable" />
     <NavigationProperty Name="Product" Relationship="Self.FK_P_PRID" FromRole="OrderLine" ToRole="Product" />
+    <Property Name="NetTotal" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>

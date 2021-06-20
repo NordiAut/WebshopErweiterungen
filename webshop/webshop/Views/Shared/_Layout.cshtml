@@ -28,10 +28,11 @@
 
                     @*<li>@Html.ActionLink("About", "About", "Home")</li>
         <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-
+                    <li>@Html.ActionLink("Chart", "Chart", "Products")</li>
+                    <li>@Html.ActionLink("Chart Data", "GetChartData", "Products")</li>
                     @if (Session["FullName"] == null)
                     {
-                        <li style="margin-left: 620px">
+                        <li>
 
                             @Html.ActionLink("Shopping Cart", "Login", "Home")
                         </li>
@@ -39,7 +40,7 @@
 
                     @if (Session["FullName"] != null)
                     {
-                        <li style="margin-left: 620px">
+                        <li>
                             @Html.ActionLink("Shopping Cart", "ShoppingCart", "Products")
                         </li>
                     }

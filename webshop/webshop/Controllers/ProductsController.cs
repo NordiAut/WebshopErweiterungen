@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using webshop;
+using webshop.Models;
 using webshop.ViewModel;
 
 namespace webshop.Controllers
@@ -20,6 +21,93 @@ namespace webshop.Controllers
         {
             var product = db.Product.Include(p => p.Category).Include(p => p.Manufacturer);
             return View(product.ToList());
+        }
+
+        public ActionResult Chart()
+        {
+            return View();
+        }
+
+        public ActionResult GetChartData()
+        {
+            var stat = new Statistic();
+
+            
+
+            //Get top 3 sold
+            var orderLine = db.OrderLine.OrderByDescending(ol => ol.NetTotal).Take(3).ToList();
+
+            stat.decimalValue = new decimal[orderLine.Count];
+            stat.Labels = new string[orderLine.Count];
+
+            for (int i = 0; i < orderLine.Count; i++)
+            {
+
+                stat.decimalValue[i] = orderLine[i].NetTotal;
+                stat.Labels[i] = orderLine[i].Product.Product_Name;
+
+            }
+
+            ////Get top 3 customers
+
+            //var customerList = db.Customer.ToList();
+
+
+            //List<CustomerStatistic> customerStatList = new List<CustomerStatistic>();
+
+
+            //foreach (var customer in customerList)
+            //{
+            //    CustomerStatistic customerStat = new CustomerStatistic();
+            //    customerStat.customerName = customer.FirstName + "" + customer.LastName;
+
+
+            //    // get orderlineList from Customer
+            //    var orderlineList = db.OrderLine.Include(ol => ol.OrderTable)
+            //        .Where(ol => ol.OrderTable.Customer_ID == customer.Customer_ID).ToList();
+
+            //    foreach (var orderline in orderlineList)
+            //    {
+            //        customerStat.moneySpent = customerStat.moneySpent + orderline.NetTotal;
+
+            //    }
+
+            //    customerStatList.Add(customerStat);
+            //}
+
+            //customerStatList.OrderByDescending(cl => cl.moneySpent).Take(3);
+
+            //stat.decimalValue = new decimal[customerStatList.Count];
+            //stat.Labels = new string[customerStatList.Count];
+
+            //for (int i = 0; i < customerStatList.Count; i++)
+            //{
+
+            //    stat.decimalValue[i] = customerStatList[i].moneySpent;
+            //    stat.Labels[i] = customerStatList[i].customerName;
+
+            //}
+
+
+
+
+            //var orderTable = db.OrderTable.Include(o => o.Customer_ID).ToList();
+
+
+            //var orders = db.OrderTable.OrderByDescending(o => o.PriceTotal).Take(3).ToList();
+            //var 
+
+            //foreach (var order in orders)
+            //{
+            //    = new decimal[]{};
+            //    stat.DecimalValue.ToArray()
+            //}
+            //stat.DecimalValue
+
+            //stat.Werte = new int[] { 20, 9, 2, 1, 13, 20, 9, 2, 1, 13 };
+            //stat.Labels = new string[] { "A", "B", "C", "D", "E", "A", "B", "C", "D", "E" };
+
+            return Json(stat, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Product(string searchString, string CategoryFilter = "", string ManufactorerFilter = "")
@@ -572,5 +660,7 @@ namespace webshop.Controllers
             
             return View();
         }
+
+
     }
 }

@@ -39,6 +39,7 @@
     <EntitySetMapping Name="OrderLine">
       <EntityTypeMapping TypeName="webshopModel.OrderLine">
         <MappingFragment StoreEntitySet="OrderLine">
+          <ScalarProperty Name="NetTotal" ColumnName="NetTotal" />
           <ScalarProperty Name="OrderLine_ID" ColumnName="OrderLine_ID" />
           <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
           <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />

@@ -42,6 +42,7 @@
     <Property Name="Amount" Type="int" Nullable="false" />
     <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="TaxRate" Type="float" Nullable="false" />
+    <Property Name="NetTotal" Type="money" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>

@@ -149,6 +149,8 @@
     <Compile Include="Manufacturer.cs">
       <DependentUpon>webshopModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomerStatistic.cs" />
+    <Compile Include="Models\Statistic.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="OrderLine.cs">
       <DependentUpon>webshopModel.tt</DependentUpon>
@@ -294,6 +296,7 @@
     <Content Include="webshopModel.edmx.diagram">
       <DependentUpon>webshopModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Products\Chart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,8 +1,26 @@
 
 /* webshop V4 */ 
 
-use webshop;
+use webshopChart;
 
+Alter table orderline
+Add NetTotal money not null;
+
+create trigger Nettotal  
+on OrderLine  
+after update  
+as  
+begin  
+update OrderLine set OrderLine.NetTotal = OrderLine.Amount * OrderLine.NetUnitPrice   
+end   
+
+alter trigger Nettotal  
+on OrderLine  
+after insert, update  
+as  
+begin  
+update OrderLine set OrderLine.NetTotal = OrderLine.Amount * OrderLine.NetUnitPrice   
+end   
 
 
 
