@@ -30,6 +30,7 @@ namespace webshop
         public string City { get; set; }
         public byte[] PwHash { get; set; }
         public byte[] Salt { get; set; }
+        public string Token { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderTable> OrderTable { get; set; }

@@ -34,12 +34,10 @@ namespace webshop.Controllers
             // get customer
             var customer = db.Customer.Where(x => x.Customer_ID == customerId).FirstOrDefault();
             // get order from customer
-
             // get orderTable from customer
             var order = db.OrderTable
                 .OrderByDescending(o => o.Order_ID)
                 .Where(x => x.Customer_ID == customerId).FirstOrDefault();
-
             // get list of orderlines from order from customer
             var orderId = order.Order_ID;
             var orderLine = db.OrderLine.Where(o => o.Order_ID == orderId).ToList();
@@ -110,8 +108,7 @@ namespace webshop.Controllers
             OrderCustomerOrderLineList.Remove(OrderCustomerOrderLineList.Where(x => x.Order_Id == checkoutObject.Order_Id).FirstOrDefault());
             OrderCustomerOrderLineList.Add(checkoutObject);
 
-
-
+    
 
 
             return View(checkoutObject);
@@ -252,7 +249,7 @@ namespace webshop.Controllers
             //fileStream.Close();
 
             //TODO Email
-            string from = "platz12@lap-itcc.net";
+            string from = "itn132163@qualifizierung.at"; 
             using (MailMessage mail = new MailMessage(from, "itn132163@qualifizierung.at"))
             {
                 mail.Subject = "Invoice";
@@ -265,18 +262,20 @@ namespace webshop.Controllers
                 mail.Attachments.Add(new Attachment(memStream, "invoice.pdf"));
                 mail.IsBodyHtml = false;
                 SmtpClient smtp = new SmtpClient();
-                smtp.Host = "mail.your-server.de";
+                smtp.Host = "smtp.office365.com";
                 smtp.EnableSsl = true;
-                NetworkCredential networkCredential = new NetworkCredential(from, "platz12IT-SYST");
+                NetworkCredential networkCredential = new NetworkCredential(from, pw);
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = networkCredential;
-                smtp.Port = 25;
+                smtp.Port = 587;
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.Send(mail);
-
+                
             }
 
             Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
+
+
 
             //return invoice;
             return View(checkoutObject);
@@ -331,6 +330,22 @@ namespace webshop.Controllers
 
 
 
+        //[HttpPost]
+        //public ActionResult PaymentOptions(int orderId, OrderCustomerOrderLine orderobject)
+        //{
+
+        //    var orderObject = new OrderCustomerOrderLine();
+        //    orderObject = OrderCustomerOrderLineList.Where(x => x.Order_Id == orderId).FirstOrDefault();
+        //    if (orderObject.Payment == null)
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    else if (orderobject.Payment == "invoice")
+        //    {
+        //        return RedirectToAction("Invoice", orderObject);
+        //    }
+        //    return RedirectToAction("Checkout");
+        //}
 
         private static string pw = "Oliverbbrz";
 

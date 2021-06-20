@@ -294,6 +294,10 @@
     <Content Include="webshopModel.edmx.diagram">
       <DependentUpon>webshopModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Customers\ForgotPassword.cshtml" />
+    <Content Include="Views\Customers\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Customers\ResetPassword.cshtml" />
+    <Content Include="Views\Customers\ResetPasswordConfirmation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

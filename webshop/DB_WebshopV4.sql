@@ -1,8 +1,10 @@
 
 /* webshop V4 */ 
 
-use webshop;
+use webshopResetPassword;
 
+ALTER TABLE Customer
+ADD Token nvarchar(100);
 
 
 

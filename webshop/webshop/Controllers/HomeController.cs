@@ -47,8 +47,8 @@ namespace webshop.Controllers
                 if (check == null)
                 {
                     //Security
-                    newCustomer.Salt = GetSalt();
-                    newCustomer.PwHash = GetSaltedStringHash(user.Password, newCustomer.Salt);
+                    newCustomer.Salt = Services.Helper.GetSalt();
+                    newCustomer.PwHash = Services.Helper.GetSaltedStringHash(user.Password, newCustomer.Salt);
                     
 
                     //Add new Customer
@@ -119,7 +119,7 @@ namespace webshop.Controllers
                 if (customer != null)
                 {
                     // Get Password hashed
-                    var hashPassword = GetSaltedStringHash(password, customer.Salt);
+                    var hashPassword = Services.Helper.GetSaltedStringHash(password, customer.Salt);
 
                     // If password is valid 
                     if (customer.PwHash.SequenceEqual(hashPassword))
@@ -181,28 +181,5 @@ namespace webshop.Controllers
             return hashedStrBytes;
         }
 
-        private static byte[] GetSalt()
-        {
-            byte[] salt = new byte[256 / 8];
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetNonZeroBytes(salt);
-
-            return salt;
-        }
-      
-
-        private static byte[] GetSaltedStringHash(string password, byte[] salt)
-        {
-            //String in Bytes umwandeln
-            byte[] strBytes = Encoding.UTF8.GetBytes(password);
-
-            //Salt an String anhängen
-            byte[] HashSalt = strBytes.Concat(salt).ToArray();
-
-
-            var hasher = new SHA256Managed();
-
-            return hasher.ComputeHash(HashSalt);
-        }
     }
 }

@@ -22,6 +22,7 @@
     <Property Name="City" Type="nvarchar" MaxLength="50" />
     <Property Name="PwHash" Type="binary" MaxLength="32" />
     <Property Name="Salt" Type="binary" MaxLength="32" />
+    <Property Name="Token" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Manufacturer">
     <Key>

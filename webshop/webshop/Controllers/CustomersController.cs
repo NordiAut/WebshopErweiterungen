@@ -26,7 +26,108 @@ namespace webshop.Controllers
             return View(db.Customer.ToList());
         }
 
-     
+        [HttpGet]
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ForgotPassword(Customer model)
+        {
+            {
+                if (ModelState.IsValid)
+                {
+                    // get customer
+                    var customer = db.Customer.Where(x => x.Email == model.Email).FirstOrDefault();
+
+                    // If the user is found AND Email is confirmed
+                    if (customer != null )
+                    {
+                        db.Entry(customer);
+                        // Generate the reset password token
+                        string token = Services.Helper.Token();
+
+                        // save token in db
+
+                        customer.Token = token;
+                        db.SaveChanges();
+
+                        // Build the password reset link
+                        var passwordResetLink = $"http://localhost:{58869}/Customers/ResetPassword?email={model.Email}&token={token}";
+
+
+                        Services.Helper.EmailResetPassword(passwordResetLink, model.Email);
+                   
+
+                        // Send the user to Forgot Password Confirmation view
+                        return View("ForgotPasswordConfirmation");
+                    }
+
+                    // To avoid account enumeration and brute force attacks, don't
+                    // reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                return View(model);
+            }
+        }
+
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string token, string email)
+        {
+            // If password reset token or email is null, most likely the
+            // user tried to tamper the password reset link
+            if (token == null || email == null)
+            {
+                ModelState.AddModelError("", "Invalid password reset token");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ResetPassword(User user)
+        {
+           
+                // Find the user by email
+                var customer = db.Customer.Where(x => x.Email == user.Email).FirstOrDefault();
+
+                if (customer != null)
+                {
+                    // if token is valid
+                    if (user.Token == customer.Token)
+                    {
+                        // reset the user password and invalidate token
+                        db.Entry(customer);
+                        customer.PwHash = Services.Helper.GetSaltedStringHash(user.Password, customer.Salt);
+                        customer.Token = null;
+                         db.SaveChanges();
+
+                        return View("ResetPasswordConfirmation");
+
+                    }
+                }
+
+                // To avoid account enumeration and brute force attacks, don't
+                // reveal that the user does not exist
+                return View();
+            
+            
+        }
+
+
 
         // GET: Customers/Details/5
         public ActionResult Details(int? id)

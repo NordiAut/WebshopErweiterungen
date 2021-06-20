@@ -43,13 +43,18 @@ namespace webshop.Models
         [Required]
         public string Password { get; set; }
 
+        [DataType(DataType.Password)]
         [NotMapped]
         [Required]
         [System.ComponentModel.DataAnnotations.Compare("Password")]
         public string ConfirmPassword { get; set; }
+
         public string FullName()
         {
             return this.FirstName + " " + this.LastName;
         }
+
+        [StringLength(100)]
+        public string Token { get; set; }
     }
 }
