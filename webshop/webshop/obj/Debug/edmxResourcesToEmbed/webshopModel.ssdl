@@ -42,6 +42,7 @@
     <Property Name="Amount" Type="int" Nullable="false" />
     <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="TaxRate" Type="float" Nullable="false" />
+    <Property Name="NetLinePrice" Type="decimal" Precision="28" Scale="2" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderTable">
     <Key>
@@ -68,6 +69,8 @@
     <Property Name="NetUnitPrice" Type="money" Nullable="false" />
     <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
     <Property Name="Description" Type="nvarchar" MaxLength="50" />
+    <Property Name="Salesproduct" Type="int" Nullable="false" />
+    <Property Name="OriginalPrice" Type="decimal" Precision="28" Scale="2" Nullable="false" />
   </EntityType>
   <Association Name="FK_P_CAID">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />

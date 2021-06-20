@@ -20,6 +20,7 @@ namespace webshop
         public int Amount { get; set; }
         public decimal NetUnitPrice { get; set; }
         public double TaxRate { get; set; }
+        public decimal NetLinePrice { get; set; }
     
         public virtual OrderTable OrderTable { get; set; }
         public virtual Product Product { get; set; }

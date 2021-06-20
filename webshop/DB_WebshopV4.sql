@@ -1,10 +1,41 @@
 
 /* webshop V4 */ 
 
-use webshop;
+
+CREATE TRIGGER Salesproduct
+    ON Product
+    AFTER UPDATE
+    AS 
+    BEGIN
+          UPDATE Product 
+          SET OriginalPrice = NetUnitPrice
+		  Where Salesproduct = 1
+		  UPDATE Product 
+          SET NetUnitPrice = NetUnitPrice*0.9
+		  Where Salesproduct = 1
+	END
+
+
+ALTER TABLE Product
+ADD OriginalPrice decimal(28,2) not null default(0)
+
+ALTER TABLE Product
+ADD Salesproduct int not null default(0)
+
+UPDATE Product
+SET Salesproduct = 0;
+
+UPDATE Product
+SET OriginalPrice = NetUnitPrice;
 
 
 
+ALTER TABLE OrderLine
+ADD NetLinePrice decimal(28,2) not null default(0)
+
+
+
+use webshopSalesproduct;
 
 /* Manufacturer */ 
 CREATE TABLE Manufacturer(

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<webshop.Product>
+<div class="col-lg-12" style="text-align:center">
+    <h1> Product of the month</h1>
+    <hr />
+</div>
+<div class="col-lg-12">
+
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4" style="border: black;border-style: solid;border-width: 1px; text-align: center">
+
+            @Html.DisplayFor(modelItem => item.Product_Name)
+
+            <div>
+                <img src="@Url.Content(item.ImagePath)" width="100" height="100">
+            </div>
+            Price: @Html.DisplayFor(modelItem => item.NetUnitPrice) €
+            @Html.ActionLink("Details", "Details", "Products", new { id = item.Product_ID }, null)
+
+        </div>
+        <div class="col-md-4">
+        </div>
+
+    }
+
+
+</div>
+<hr />
+<span>-</span>
+

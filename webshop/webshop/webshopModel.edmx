@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="webshopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="webshopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_ID" />
@@ -47,6 +47,7 @@
           <Property Name="Amount" Type="int" Nullable="false" />
           <Property Name="NetUnitPrice" Type="money" Nullable="false" />
           <Property Name="TaxRate" Type="float" Nullable="false" />
+          <Property Name="NetLinePrice" Type="decimal" Precision="28" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderTable">
           <Key>
@@ -73,6 +74,8 @@
           <Property Name="NetUnitPrice" Type="money" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Salesproduct" Type="int" Nullable="false" />
+          <Property Name="OriginalPrice" Type="decimal" Precision="28" Scale="2" Nullable="false" />
         </EntityType>
         <Association Name="FK_P_CAID">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
@@ -162,8 +165,7 @@
             <End Role="Product" EntitySet="Product" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="webshopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -214,6 +216,7 @@
           <Property Name="TaxRate" Type="Double" Nullable="false" />
           <NavigationProperty Name="OrderTable" Relationship="Self.FK_P_OOID" FromRole="OrderLine" ToRole="OrderTable" />
           <NavigationProperty Name="Product" Relationship="Self.FK_P_PRID" FromRole="OrderLine" ToRole="Product" />
+          <Property Name="NetLinePrice" Type="Decimal" Nullable="false" Precision="28" Scale="2" />
         </EntityType>
         <EntityType Name="OrderTable">
           <Key>
@@ -245,6 +248,8 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_P_CAID" FromRole="Product" ToRole="Category" />
           <NavigationProperty Name="Manufacturer" Relationship="Self.FK_P_SCID" FromRole="Product" ToRole="Manufacturer" />
           <NavigationProperty Name="OrderLine" Relationship="Self.FK_P_PRID" FromRole="Product" ToRole="OrderLine" />
+          <Property Name="Salesproduct" Type="Int32" Nullable="false" />
+          <Property Name="OriginalPrice" Type="Decimal" Nullable="false" Precision="28" Scale="2" />
         </EntityType>
         <Association Name="FK_P_CAID">
           <End Role="Category" Type="Self.Category" Multiplicity="1" />
@@ -378,6 +383,7 @@
           <EntitySetMapping Name="OrderLine">
             <EntityTypeMapping TypeName="webshopModel.OrderLine">
               <MappingFragment StoreEntitySet="OrderLine">
+                <ScalarProperty Name="NetLinePrice" ColumnName="NetLinePrice" />
                 <ScalarProperty Name="OrderLine_ID" ColumnName="OrderLine_ID" />
                 <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
@@ -405,6 +411,8 @@
           <EntitySetMapping Name="Product">
             <EntityTypeMapping TypeName="webshopModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+                <ScalarProperty Name="Salesproduct" ColumnName="Salesproduct" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Manufacturer_ID" ColumnName="Manufacturer_ID" />
                 <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />

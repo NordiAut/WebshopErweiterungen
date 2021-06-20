@@ -22,6 +22,17 @@ namespace webshop.Controllers
             return View(product.ToList());
         }
 
+        public ActionResult Salesproduct()
+        {
+
+            var product = db.Product.Where(p => p.Salesproduct == 1);
+            return View(product.ToList());
+        }
+
+
+
+
+
         public ActionResult Product(string searchString, string CategoryFilter = "", string ManufactorerFilter = "")
         {
             var vm = new FilterAndSearchViewModel();

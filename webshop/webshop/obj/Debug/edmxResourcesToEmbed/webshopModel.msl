@@ -39,6 +39,7 @@
     <EntitySetMapping Name="OrderLine">
       <EntityTypeMapping TypeName="webshopModel.OrderLine">
         <MappingFragment StoreEntitySet="OrderLine">
+          <ScalarProperty Name="NetLinePrice" ColumnName="NetLinePrice" />
           <ScalarProperty Name="OrderLine_ID" ColumnName="OrderLine_ID" />
           <ScalarProperty Name="Order_ID" ColumnName="Order_ID" />
           <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
@@ -66,6 +67,8 @@
     <EntitySetMapping Name="Product">
       <EntityTypeMapping TypeName="webshopModel.Product">
         <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="OriginalPrice" ColumnName="OriginalPrice" />
+          <ScalarProperty Name="Salesproduct" ColumnName="Salesproduct" />
           <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
           <ScalarProperty Name="Manufacturer_ID" ColumnName="Manufacturer_ID" />
           <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />

@@ -27,6 +27,8 @@ namespace webshop
         public decimal NetUnitPrice { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
+        public int Salesproduct { get; set; }
+        public decimal OriginalPrice { get; set; }
     
         public virtual Category Category { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
