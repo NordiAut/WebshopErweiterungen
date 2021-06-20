@@ -277,6 +277,7 @@ namespace webshop.Controllers
             }
 
             Services.Helper.FinishOrder(orderObject.Order_Id, orderObject.Customer_Id, bruttoTotal);
+            checkoutObject.RecommendedProducts = Services.Producthelper.GetRecommendedProducts(orderObject.Order_Id);
 
             //return invoice;
             return View(checkoutObject);
